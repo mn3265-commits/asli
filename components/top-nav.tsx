@@ -38,6 +38,12 @@ export function TopNav() {
             Spec
           </Link>
           <Link
+            href="/strategy"
+            className="px-3 py-2 rounded-full text-[var(--fg-soft)] hover:text-[var(--moss)] tap hidden lg:inline-block"
+          >
+            Memo
+          </Link>
+          <Link
             href="/scan"
             className="ml-1 px-4 py-2 rounded-full bg-[var(--moss)] text-[var(--ivory)] font-bold tap"
           >

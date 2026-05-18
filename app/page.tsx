@@ -324,6 +324,9 @@ export default function HomePage() {
             <Link href="/spec" className="hover:text-[var(--ochre)]">
               Open DPID Spec
             </Link>
+            <Link href="/strategy" className="hover:text-[var(--ochre)]">
+              Strategic memo
+            </Link>
             <Link href="/onboard" className="hover:text-[var(--ochre)]">
               For exporters
             </Link>
