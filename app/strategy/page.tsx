@@ -1,8 +1,9 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { marked } from "marked";
-import { Printer, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { PrintButton } from "@/components/print-button";
 import {
   TechStackDiagram,
   ComparisonDiagram,
@@ -208,20 +209,6 @@ export default async function StrategyPage() {
         `}
       </style>
     </>
-  );
-}
-
-function PrintButton() {
-  return (
-    <form action="javascript:window.print()">
-      <button
-        type="submit"
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--ochre)] text-[var(--fg)] text-xs font-bold tap"
-      >
-        <Printer size={12} />
-        Save as PDF
-      </button>
-    </form>
   );
 }
 

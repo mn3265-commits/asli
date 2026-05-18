@@ -1,8 +1,9 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { marked } from "marked";
-import { Printer, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { PrintButton } from "@/components/print-button";
 import {
   TechStackDiagram,
   ComparisonDiagram,
@@ -51,7 +52,7 @@ export default async function StrategyPageID() {
             <span className="text-[10px] uppercase tracking-widest font-bold opacity-70 hidden sm:inline">
               Studi kasus · dengan figur
             </span>
-            <PrintButton />
+            <PrintButton label="Simpan sebagai PDF" />
           </div>
         </div>
       </div>
@@ -117,19 +118,6 @@ export default async function StrategyPageID() {
   );
 }
 
-function PrintButton() {
-  return (
-    <form action="javascript:window.print()">
-      <button
-        type="submit"
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--ochre)] text-[var(--fg)] text-xs font-bold tap"
-      >
-        <Printer size={12} />
-        Simpan sebagai PDF
-      </button>
-    </form>
-  );
-}
 
 function splitSections(md: string): { slug: string; body: string }[] {
   const lines = md.split("\n");
