@@ -24,7 +24,7 @@
 
 Indonesia memproduksi komoditas yang dunia tidak bisa gantikan. Negara ini memasok kira-kira **8% kopi global**, **17% kakao global**, **80% minyak atsiri nilam global**, dan masih menjadi satu-satunya asal yang berarti untuk pala dan fuli dalam skala — jalur pasokan berusia 500 tahun yang dulu membantu mendanai VOC. Negara ini mengekspor kira-kira **USD 3.2 miliar kopi dan kakao saja di 2024**.
 
-Namun — dari setiap studi yang tersedia — petani kecil komoditas Indonesia berpenghasilan antara **USD 1.50 sampai USD 4.00 per hari**. Petani kopi di Aceh Tengah dan petani kopi di Antioquia, Kolombia, memproduksi kualitas cup yang kurang lebih sebanding. Petani Kolombia menangkap empat sampai enam kali lebih banyak dari harga retail.
+Namun — dari setiap studi yang tersedia — rata-rata petani kecil komoditas Indonesia berpenghasilan sekitar **USD 2 per hari** (dengan rentang yang dilaporkan USD 1.50 sampai USD 4.00 lintas komoditas dan wilayah). Petani kopi di Aceh Tengah dan petani kopi di Antioquia, Kolombia, memproduksi kualitas cup yang kurang lebih sebanding. Petani Kolombia menangkap empat sampai enam kali lebih banyak dari harga retail.
 
 Tiga kekuatan bertemu di 2026 yang membuat ini momen yang sangat baik untuk bertindak:
 
@@ -58,7 +58,7 @@ Empat teknologi terbuka digabungkan di setiap DPID. Tidak ada satu pun yang seca
 
 ### Lapisan 1 — Asal-usul diverifikasi satelit
 
-Setiap lahan petani didaftarkan sebagai poligon koordinat GPS. Platform menarik **citra Sentinel-2 dari programme Copernicus ESA setiap lima hari** — satelit memiliki resolusi 10 meter, yang cukup untuk melihat lahan smallholder individual dan mendeteksi perubahan tutupan hutan.
+Setiap lahan petani didaftarkan sebagai poligon koordinat GPS. Platform menarik **citra Sentinel-2 dari programme Copernicus ESA setiap lima hari** — satelit memiliki resolusi 10 meter, yang cukup untuk melihat lahan petani kecil secara individual dan mendeteksi perubahan tutupan hutan.
 
 Ini menyelesaikan dua masalah sekaligus:
 
@@ -79,7 +79,7 @@ Ini menyelesaikan chicken-and-egg historis dari storytelling petani: petani tida
 
 Setiap batch membawa saldo CO₂, dihitung sebagai selisih antara indeks keanekaragaman hayati dari satelit pada lahan, praktik yang dideklarasikan petani (kopi shade-grown, agroforestri, no-till), dan faktor emisi IPCC untuk pengolahan dan logistik.
 
-Banyak komoditas smallholder Indonesia — khususnya kopi shade-grown, kakao agroforestri, dan madu hutan liar — adalah **net-negatif karbon**. Buku besar karbon, di kasus kebun kami, sering kali merupakan *kredit* di sisi pembeli buku besar. Asli memungkinkan pembeli memensiunkan offset saat checkout, bersama dengan pembelian, sebagai satu transaksi.
+Banyak komoditas petani kecil Indonesia — khususnya kopi shade-grown, kakao agroforestri, dan madu hutan liar — adalah **net-negatif karbon**. Buku besar karbon, di kasus kebun kami, sering kali merupakan *kredit* di sisi pembeli buku besar. Asli memungkinkan pembeli memensiunkan offset saat checkout, bersama dengan pembelian, sebagai satu transaksi.
 
 ### Lapisan 4 — Spesifikasi DPID terbuka
 
@@ -98,7 +98,7 @@ Asli mengenakan biaya:
 - **Zero fee untuk tip langsung dan pre-order.** 100% dari ini lewat ke petani; biaya payment processor diserap Asli sebagai biaya akuisisi pelanggan.
 - **Masa depan:** lisensi badge *Verified by Asli* untuk brand yang sumber >50% komoditas mereka melalui DPID Asli. (Mirip dengan sertifikasi Fair Trade, tapi terikat data live, bukan audit kertas.)
 
-Kami estimasi **rata-rata pendapatan per petani aktif USD 28–42 per tahun** dalam steady state — diturunkan dari volume minting plus biaya transaksi pada panen tahunan tipikal mereka. Platform mencapai break-even di sekitar **3,500 petani aktif**. Indonesia punya lebih dari empat juta petani komoditas smallholder; kami perlu kira-kira satu dari seribu.
+Kami estimasi **rata-rata pendapatan per petani aktif USD 28–42 per tahun** dalam steady state — diturunkan dari volume minting plus biaya transaksi pada panen tahunan tipikal mereka. Platform mencapai break-even di sekitar **3,500 petani aktif**. Indonesia punya lebih dari empat juta petani kecil komoditas; kami perlu kira-kira satu dari seribu.
 
 Sebagai konteks: satu koperasi kopi Indonesia ukuran menengah rutin melayani 800–2,000 petani. Enam koperasi yang onboard dengan baik membawa kami ke profitabilitas.
 
@@ -160,7 +160,7 @@ Target ini sengaja dikalibrasi agar dapat dipertahankan di presentasi *Greater G
 
 Kami akan menutup dengan paragraf yang biasanya tidak ditemukan dalam memo strategis, karena pekerjaannya juga biasanya tidak ditemukan dalam memo strategis.
 
-Petani smallholder komoditas Indonesia menanam produk yang dikonsumsi ratusan juta orang setiap hari. Sebagian besar konsumen di Berlin dan Brooklyn dan Tokyo tidak akan pernah bertemu salah satu dari mereka. Keadaan default dari relasi ini adalah asimetri mendalam: petani esensial, lelah, dan tak terlihat; pembeli berpriviledge, terdistraksi, dan tidak tahu peran yang mereka mainkan dalam hidup petani.
+Petani kecil komoditas Indonesia menanam produk yang dikonsumsi ratusan juta orang setiap hari. Sebagian besar konsumen di Berlin dan Brooklyn dan Tokyo tidak akan pernah bertemu salah satu dari mereka. Keadaan default dari relasi ini adalah asimetri mendalam: petani esensial, lelah, dan tak terlihat; pembeli memiliki privilese, terdistraksi, dan tidak tahu peran yang mereka mainkan dalam hidup petani.
 
 Asli adalah taruhan bahwa asimetri ini sudah **secara teknologi usang.** Satelit gratis sudah memperhatikan lahan petani. Language model gratis bisa membawa suara petani. Rail pembayaran terbuka bisa mengantarkan pembayaran pembeli, seketika, tanpa skimming. Kami tidak butuh sains baru. Kami hanya butuh disiplin untuk menggabungkan apa yang sudah ada, di sisi petani.
 

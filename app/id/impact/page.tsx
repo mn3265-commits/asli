@@ -15,7 +15,7 @@ const SDGS = [
     num: "8",
     title: "Pekerjaan Layak & Ekonomi Tumbuh",
     bg: "#a21942",
-    body: "Upah transparan + harga floor ditentukan petani. Smallholder menangkap 68% nilai vs industri 22%.",
+    body: "Upah transparan + harga floor ditentukan petani. Petani menangkap 68% nilai vs industri ~22%.",
   },
   {
     num: "12",

@@ -253,7 +253,7 @@ export default function HomePageID() {
                 icon={<ScanLine size={20} />}
                 num="04"
                 title="Spesifikasi DPID terbuka"
-                body="Standar DPID adalah publik. Koperasi, eksportir, dan komoditas mana pun bisa membuat dan membaca DPID. Kami jadi infrastruktur, bukan penjaga gerbang. Stripe untuk fair trade."
+                body="Standar DPID adalah publik. Koperasi, eksportir, dan komoditas mana pun bisa membuat dan membaca DPID. Kami jadi infrastruktur, bukan penjaga gerbang — pola Stripe, diterapkan ke fair trade."
                 chip="open API"
               />
             </Reveal>

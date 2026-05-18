@@ -24,7 +24,7 @@
 
 Indonesia produces commodities the world cannot replace. It supplies roughly **8% of global coffee**, **17% of global cocoa**, **80% of global patchouli essential oil**, and remains the only meaningful origin of nutmeg and mace at scale — a 500-year-old supply line that helped fund the Dutch East India Company. The country exported an estimated **USD 3.2 billion of coffee and cocoa alone in 2024**.
 
-And yet — by every available study — Indonesian smallholder commodity farmers earn between **USD 1.50 and USD 4.00 per day**. A coffee farmer in Aceh Tengah and a coffee farmer in Antioquia, Colombia produce roughly comparable cup quality. The Colombian captures four to six times more of the retail price.
+And yet — by every available study — the typical Indonesian smallholder commodity farmer earns roughly **USD 2 a day** (with reported ranges of USD 1.50 to USD 4.00 across commodities and regions). A coffee farmer in Aceh Tengah and a coffee farmer in Antioquia, Colombia produce roughly comparable cup quality. The Colombian captures four to six times more of the retail price.
 
 Three forces are converging in 2026 that make this an unusually good moment to act:
 

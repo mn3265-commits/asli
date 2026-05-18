@@ -252,7 +252,7 @@ export default function HomePage() {
                 icon={<ScanLine size={20} />}
                 num="04"
                 title="Open DPID spec"
-                body="The DPID standard is public. Any cooperative, any exporter, any commodity can mint and read DPIDs. We become infrastructure, not gatekeeper. Stripe-for-fair-trade."
+                body="The DPID standard is public. Any cooperative, any exporter, any commodity can mint and read DPIDs. We become infrastructure, not gatekeeper — the Stripe pattern, applied to fair trade."
                 chip="open API"
               />
             </Reveal>

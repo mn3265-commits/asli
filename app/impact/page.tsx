@@ -17,7 +17,7 @@ const SDGS = [
     num: "8",
     title: "Decent Work & Economic Growth",
     bg: "#a21942",
-    body: "Transparent wages + farmer-set floor pricing. Smallholders captured 68% of value vs industry 22%.",
+    body: "Transparent wages + farmer-set floor pricing. Farmers captured 68% of value vs industry ~22%.",
   },
   {
     num: "12",
