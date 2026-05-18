@@ -29,7 +29,46 @@ export function VoiceCard({
   const [lang, setLang] = useState("en");
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [translatedText, setTranslatedText] = useState<string | null>(null);
+  const [translating, setTranslating] = useState(false);
+  const [aiSource, setAiSource] = useState<"claude" | "fallback" | null>(
+    null,
+  );
   const rafRef = useRef<number | null>(null);
+
+  // Fetch translation whenever language changes
+  useEffect(() => {
+    let cancelled = false;
+    setTranslating(true);
+    setTranslatedText(null);
+    setAiSource(null);
+    fetch("/api/translate", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        farmerName,
+        villageName,
+        targetLang: lang,
+      }),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (cancelled) return;
+        if (data.ok) {
+          setTranslatedText(data.text);
+          setAiSource(data.source);
+        }
+      })
+      .catch(() => {
+        // Silent fallback
+      })
+      .finally(() => {
+        if (!cancelled) setTranslating(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [lang, farmerName, villageName]);
 
   useEffect(() => {
     if (!playing) return;
@@ -137,41 +176,27 @@ export function VoiceCard({
         </div>
       </div>
 
-      <p className="mt-5 text-sm text-[var(--fg-soft)] italic leading-relaxed">
-        {lang === "id" && (
-          <>
-            &ldquo;Halo dari {villageName}. Saya {farmerName.split(" ").slice(-1)[0]}.
-            Terima kasih sudah membeli hasil kebun saya hari ini…&rdquo;
-          </>
+      <div className="mt-5 min-h-[4rem]">
+        {translating && (
+          <div className="flex items-center gap-2 text-sm text-[var(--muted)] italic">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--ochre)] animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--ochre)] animate-pulse [animation-delay:120ms]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--ochre)] animate-pulse [animation-delay:240ms]" />
+            <span className="ml-1">Translating…</span>
+          </div>
         )}
-        {lang === "en" && (
-          <>
-            &ldquo;Hello from {villageName}. I&apos;m {farmerName.split(" ").slice(-1)[0]}.
-            Thank you for buying from my farm today. This batch came from
-            the same trees my grandfather planted…&rdquo;
-          </>
+        {!translating && translatedText && (
+          <p className="text-sm text-[var(--fg-soft)] italic leading-relaxed">
+            &ldquo;{translatedText}&rdquo;
+          </p>
         )}
-        {lang === "nl" && (
-          <>
-            &ldquo;Hallo vanuit {villageName}. Ik ben {farmerName.split(" ").slice(-1)[0]}.
-            Dank je dat je vandaag van mijn boerderij koopt…&rdquo;
-          </>
-        )}
-        {lang === "de" && (
-          <>
-            &ldquo;Hallo aus {villageName}. Ich bin {farmerName.split(" ").slice(-1)[0]}.
-            Danke, dass Sie heute von meinem Hof kaufen…&rdquo;
-          </>
-        )}
-        {lang === "ja" && (
-          <>
-            &ldquo;{villageName}からこんにちは。{farmerName.split(" ").slice(-1)[0]}です。
-            今日、私の農場から購入してくださってありがとうございます…&rdquo;
-          </>
-        )}
-      </p>
+      </div>
       <p className="text-[10px] uppercase tracking-widest font-bold text-[var(--muted)] mt-3">
-        ● Powered by Claude · voice cloning preserves farmer&apos;s timbre
+        ● {aiSource === "claude"
+          ? "Live · Powered by Claude Haiku 4.5"
+          : aiSource === "fallback"
+            ? "Demo · seeded translation (live Claude when API key set)"
+            : "Loading translator…"}
       </p>
     </div>
   );

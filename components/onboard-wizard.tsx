@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   ArrowRight,
   ArrowLeft,
@@ -11,6 +12,7 @@ import {
   QrCode,
   Sparkles,
 } from "lucide-react";
+import { addOnboarded } from "@/lib/store";
 
 const STEPS = [
   { id: 0, icon: Building, label: "Org" },
@@ -70,15 +72,23 @@ export function OnboardWizard() {
             {dpid}
           </p>
         </div>
-        <button
-          onClick={() => {
-            setDone(false);
-            setStep(0);
-          }}
-          className="mt-2 px-5 py-3 rounded-full bg-[var(--fg)] text-[var(--ivory)] font-bold tap"
-        >
-          Onboard another
-        </button>
+        <div className="flex flex-wrap gap-2 justify-center mt-2">
+          <Link
+            href="/farmers"
+            className="px-5 py-3 rounded-full bg-[var(--moss)] text-[var(--ivory)] font-bold tap"
+          >
+            See in farmers list →
+          </Link>
+          <button
+            onClick={() => {
+              setDone(false);
+              setStep(0);
+            }}
+            className="px-5 py-3 rounded-full bg-[var(--ivory)] border border-[var(--line)] text-[var(--fg)] font-bold tap"
+          >
+            Onboard another
+          </button>
+        </div>
       </div>
     );
   }
@@ -328,7 +338,26 @@ export function OnboardWizard() {
           </button>
         ) : (
           <button
-            onClick={() => setDone(true)}
+            onClick={() => {
+              // Persist the onboarded farmer
+              const slug = `${farmerName
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-+|-+$/g, "")}-${dpid.split("-").pop()?.toLowerCase()}`;
+              addOnboarded({
+                slug,
+                name: farmerName || "(no name)",
+                village: village || "(no village)",
+                region: village,
+                commodity: commodity.toLowerCase(),
+                hectares: Number(hectares) || 0,
+                lat: lat ? Number(lat) : undefined,
+                lng: lng ? Number(lng) : undefined,
+                dpid,
+                orgName: orgName || "(no org)",
+              });
+              setDone(true);
+            }}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--ochre)] text-[var(--fg)] font-bold tap"
           >
             Mint DPID <Sparkles size={16} />

@@ -16,6 +16,10 @@ import { FARMERS, getFarmer, formatIDR, formatUSD } from "@/lib/data";
 import { SatelliteMap } from "@/components/satellite-map";
 import { VoiceCard } from "@/components/voice-card";
 import { TipForm } from "@/components/tip-form";
+import { CommodityArt } from "@/components/commodity-art";
+import { PreorderForm } from "@/components/preorder-form";
+import { ViewTracker } from "@/components/view-tracker";
+import { TipsRunningTotal } from "@/components/tips-running-total";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -44,11 +48,24 @@ export default async function FarmerDPIDPage({ params }: PageProps) {
 
   return (
     <>
+      <ViewTracker slug={f.slug} />
+
+      {/* Hero commodity art strip */}
+      <div className="relative">
+        <CommodityArt
+          commodity={f.commodity}
+          seed={f.slug}
+          variant="hero"
+          className="w-full"
+        />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[var(--bg)] to-transparent" />
+      </div>
+
       {/* Back nav */}
-      <div className="max-w-5xl mx-auto px-5 sm:px-8 pt-6">
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 pt-4 -mt-12 relative">
         <Link
           href="/farmers"
-          className="inline-flex items-center gap-2 text-sm font-bold text-[var(--muted)] hover:text-[var(--moss)] tap"
+          className="inline-flex items-center gap-2 text-sm font-bold text-[var(--ivory)] bg-[var(--fg)]/80 backdrop-blur-md px-3 py-2 rounded-full hover:bg-[var(--fg)] tap"
         >
           <ArrowLeft size={16} />
           All farmers
@@ -124,6 +141,7 @@ export default async function FarmerDPIDPage({ params }: PageProps) {
                     {formatIDR(f.yearlyEarned)}
                   </span>
                 </div>
+                <TipsRunningTotal slug={f.slug} firstName={f.name.split(" ").slice(-1)[0]} />
               </div>
 
               <div className="grid grid-cols-3 gap-2">
@@ -203,41 +221,16 @@ export default async function FarmerDPIDPage({ params }: PageProps) {
       {/* ── TIP + PRE-ORDER ──────────────────────────────────────── */}
       <section className="paper">
         <div className="max-w-5xl mx-auto px-5 sm:px-8 pb-12 grid lg:grid-cols-2 gap-5">
-          <TipForm farmerName={f.name} tint={f.tint} />
-
-          <div
-            className="rounded-3xl p-6 sm:p-8 border border-[var(--line)]"
-            style={{ background: "var(--bg-deep)" }}
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <Clock size={18} className="text-[var(--clay)]" />
-              <h2 className="text-xl font-extrabold">Pre-order next harvest</h2>
-            </div>
-            <p className="text-sm text-[var(--fg-soft)] mb-5 leading-relaxed">
-              Fund {f.name.split(" ").slice(-1)[0]}&apos;s next batch ahead of
-              cherry-season. Locked at today&apos;s price.
-              Delivered when ready.
-            </p>
-            <div className="bg-[var(--ivory)] rounded-2xl p-5 border border-[var(--line)] mb-4">
-              <div className="flex items-baseline justify-between mb-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
-                  Next harvest window
-                </span>
-                <span className="text-xs font-bold tabular-nums text-[var(--clay)]">
-                  Sept – Dec 2026
-                </span>
-              </div>
-              <p className="text-3xl font-extrabold tabular-nums">
-                {formatUSD(f.batch.pricePerKgUsd)}
-                <span className="text-base font-bold text-[var(--muted)] ml-1">
-                  /kg locked
-                </span>
-              </p>
-            </div>
-            <button className="w-full py-3.5 rounded-full bg-[var(--clay)] text-[var(--ivory)] font-bold tap">
-              Pre-order this farm
-            </button>
-          </div>
+          <TipForm
+            farmerName={f.name}
+            farmerSlug={f.slug}
+            tint={f.tint}
+          />
+          <PreorderForm
+            farmerName={f.name}
+            farmerSlug={f.slug}
+            pricePerKgUsd={f.batch.pricePerKgUsd}
+          />
         </div>
       </section>
 

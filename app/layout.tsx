@@ -15,9 +15,41 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Asli — Indonesian commodities, by name",
+  metadataBase: new URL("https://asli-id.vercel.app"),
+  title: {
+    default: "Asli — Indonesian commodities, by name",
+    template: "%s | Asli",
+  },
   description:
     "A traceability platform for Indonesian commodity exports. Every product carries a Digital Product ID — a face, a story, a satellite-verified origin, and a fair share to the farmer.",
+  applicationName: "Asli",
+  keywords: [
+    "Indonesia",
+    "commodity",
+    "traceability",
+    "fair trade",
+    "coffee",
+    "spice",
+    "vanilla",
+    "EUDR",
+    "DPID",
+    "farmer",
+    "satellite",
+  ],
+  openGraph: {
+    title: "Asli — Indonesian commodities, by name",
+    description:
+      "Every kilo carries a Digital Product ID. Satellite-verified origin. AI-translated farmer voice. Farmer-first pricing.",
+    url: "https://asli-id.vercel.app",
+    siteName: "Asli",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Asli — Indonesian commodities, by name",
+    description:
+      "The digital trust layer for Indonesian commodity exports.",
+  },
 };
 
 export default function RootLayout({

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { FARMERS, formatIDR } from "@/lib/data";
 import { Search } from "lucide-react";
+import { CommodityArt } from "@/components/commodity-art";
+import { OnboardedFarmersBanner } from "@/components/onboarded-farmers-banner";
 
 export const metadata = {
   title: "Farmers — Asli",
@@ -56,6 +58,8 @@ export default function FarmersPage() {
           ))}
         </div>
 
+        <OnboardedFarmersBanner />
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {FARMERS.map((f, i) => (
             <Link
@@ -64,12 +68,12 @@ export default function FarmersPage() {
               className="group bg-[var(--ivory)] rounded-3xl border border-[var(--line)] p-5 tap flex flex-col gap-4 fade-up"
               style={{ animationDelay: `${60 + i * 50}ms` }}
             >
-              {/* Big tinted header strip with emoji */}
-              <div
-                className="rounded-2xl h-24 flex items-center justify-center text-5xl"
-                style={{ background: `var(--${f.tint}-soft)` }}
-              >
-                {f.emoji}
+              {/* Commodity art header */}
+              <div className="rounded-2xl overflow-hidden relative">
+                <CommodityArt commodity={f.commodity} seed={f.slug} />
+                <span className="absolute top-3 right-3 text-3xl drop-shadow-lg">
+                  {f.emoji}
+                </span>
               </div>
 
               <div className="flex flex-col gap-1">

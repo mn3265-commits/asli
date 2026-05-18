@@ -1,27 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Heart, CheckCircle2 } from "lucide-react";
+import { addTip, totalTipsForFarmer, onChange } from "@/lib/store";
 
 const PRESETS = [5, 10, 25, 50];
 
 export function TipForm({
   farmerName,
+  farmerSlug,
   tint,
 }: {
   farmerName: string;
+  farmerSlug: string;
   tint: "moss" | "ochre" | "clay" | "indigo";
 }) {
   const [amount, setAmount] = useState(10);
   const [custom, setCustom] = useState("");
   const [sent, setSent] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [previousTotal, setPreviousTotal] = useState(0);
+
+  useEffect(() => {
+    setPreviousTotal(totalTipsForFarmer(farmerSlug));
+    return onChange(() => setPreviousTotal(totalTipsForFarmer(farmerSlug)));
+  }, [farmerSlug]);
 
   const finalAmount = custom ? Number(custom) || 0 : amount;
   const firstName = farmerName.split(" ").slice(-1)[0];
 
   const send = () => {
     if (finalAmount < 1) return;
-    setSent(true);
+    setPending(true);
+    setTimeout(() => {
+      addTip(farmerSlug, finalAmount);
+      setSent(true);
+      setPending(false);
+    }, 600);
   };
 
   if (sent) {
@@ -37,11 +52,16 @@ export function TipForm({
           size={48}
           style={{ color: `var(--${tint})` }}
         />
-        <h2 className="text-2xl font-extrabold">Tip on its way</h2>
+        <h2 className="text-2xl font-extrabold">Sent.</h2>
         <p className="text-sm leading-relaxed max-w-sm">
-          ${finalAmount} sent to {firstName}. 100% goes through — no platform
-          cut, no payment fees deducted. We cover it.
+          <span className="font-extrabold">${finalAmount}</span> on its way to {firstName}. 100%
+          goes through — no platform cut, no payment fees deducted. We cover it.
         </p>
+        {previousTotal + finalAmount > finalAmount && (
+          <p className="text-xs font-bold opacity-70">
+            You've tipped {firstName} ${previousTotal + finalAmount} total.
+          </p>
+        )}
         <button
           onClick={() => setSent(false)}
           className="text-sm font-semibold underline-offset-2 hover:underline tap mt-2 opacity-70"
@@ -99,11 +119,17 @@ export function TipForm({
 
       <button
         onClick={send}
-        disabled={finalAmount < 1}
+        disabled={finalAmount < 1 || pending}
         className="w-full py-3.5 rounded-full bg-[var(--clay)] text-[var(--ivory)] font-bold tap disabled:opacity-40"
       >
-        Send ${finalAmount} to {firstName}
+        {pending ? "Sending…" : `Send $${finalAmount} to ${firstName}`}
       </button>
+
+      {previousTotal > 0 && (
+        <p className="text-xs font-semibold text-[var(--muted)] mt-3 text-center">
+          You've already tipped {firstName} ${previousTotal}
+        </p>
+      )}
 
       <p className="text-[10px] uppercase tracking-widest font-bold text-[var(--muted)] mt-3 text-center">
         ● demo · payments via Asli wallet (Xendit + Stripe in prod)

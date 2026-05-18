@@ -10,6 +10,18 @@ import {
   ScanLine,
   History,
 } from "lucide-react";
+import {
+  listTips,
+  listPreorders,
+  listRecent,
+  addTip,
+  addPreorder,
+  trackRecentView,
+  clearAll,
+  onChange,
+  type Tip,
+  type Preorder,
+} from "@/lib/store";
 
 type FarmerLookup = Record<
   string,
@@ -22,83 +34,48 @@ type FarmerLookup = Record<
   }
 >;
 
-type StoredActivity = {
-  // recent farmer slugs viewed
-  recent: string[];
-  // tips: array of { slug, amount, ts }
-  tips: { slug: string; amount: number; ts: number }[];
-  // preorders: array of { slug, season, ts }
-  preorders: { slug: string; ts: number }[];
-};
-
-const KEY = "asli_user_v1";
-
-function readActivity(): StoredActivity {
-  if (typeof window === "undefined")
-    return { recent: [], tips: [], preorders: [] };
-  try {
-    const raw = window.localStorage.getItem(KEY);
-    if (!raw) return { recent: [], tips: [], preorders: [] };
-    const parsed = JSON.parse(raw);
-    return {
-      recent: parsed.recent ?? [],
-      tips: parsed.tips ?? [],
-      preorders: parsed.preorders ?? [],
-    };
-  } catch {
-    return { recent: [], tips: [], preorders: [] };
-  }
-}
-
-function writeActivity(a: StoredActivity) {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(KEY, JSON.stringify(a));
-}
-
 export function BuyerDashboard({
   farmerLookup,
 }: {
   farmerLookup: FarmerLookup;
 }) {
-  const [activity, setActivity] = useState<StoredActivity>({
-    recent: [],
-    tips: [],
-    preorders: [],
-  });
+  const [tips, setTips] = useState<Tip[]>([]);
+  const [preorders, setPreorders] = useState<Preorder[]>([]);
+  const [recent, setRecent] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
 
+  const refresh = () => {
+    setTips(listTips());
+    setPreorders(listPreorders());
+    setRecent(listRecent());
+  };
+
   useEffect(() => {
-    setActivity(readActivity());
+    refresh();
     setReady(true);
+    return onChange(refresh);
   }, []);
 
-  const totalTipped = activity.tips.reduce((s, t) => s + t.amount, 0);
+  const totalTipped = tips.reduce((s, t) => s + t.amount, 0);
   const uniqueFarmers = new Set([
-    ...activity.recent,
-    ...activity.tips.map((t) => t.slug),
-    ...activity.preorders.map((p) => p.slug),
+    ...recent,
+    ...tips.map((t) => t.slug),
+    ...preorders.map((p) => p.slug),
   ]).size;
 
   const seedDemo = () => {
     const sample = Object.keys(farmerLookup).slice(0, 4);
-    const a: StoredActivity = {
-      recent: sample,
-      tips: [
-        { slug: sample[0], amount: 10, ts: Date.now() - 86_400_000 * 2 },
-        { slug: sample[1], amount: 25, ts: Date.now() - 86_400_000 * 5 },
-      ],
-      preorders: [
-        { slug: sample[2], ts: Date.now() - 86_400_000 * 3 },
-      ],
-    };
-    writeActivity(a);
-    setActivity(a);
+    if (sample.length < 3) return;
+    addTip(sample[0], 10);
+    addTip(sample[1], 25);
+    addPreorder(sample[2]);
+    sample.forEach((s) => trackRecentView(s));
+    refresh();
   };
 
   const clear = () => {
-    const empty = { recent: [], tips: [], preorders: [] };
-    writeActivity(empty);
-    setActivity(empty);
+    clearAll();
+    refresh();
   };
 
   if (!ready) {
@@ -108,9 +85,7 @@ export function BuyerDashboard({
   }
 
   const isEmpty =
-    activity.recent.length === 0 &&
-    activity.tips.length === 0 &&
-    activity.preorders.length === 0;
+    recent.length === 0 && tips.length === 0 && preorders.length === 0;
 
   if (isEmpty) {
     return (
@@ -141,7 +116,6 @@ export function BuyerDashboard({
 
   return (
     <div className="flex flex-col gap-8">
-      {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <StatBox
           tint="moss"
@@ -152,7 +126,7 @@ export function BuyerDashboard({
         <StatBox
           tint="ochre"
           icon={<Clock size={16} />}
-          value={activity.preorders.length.toString()}
+          value={preorders.length.toString()}
           label="Pre-orders"
         />
         <StatBox
@@ -164,16 +138,15 @@ export function BuyerDashboard({
         <StatBox
           tint="clay"
           icon={<ScanLine size={16} />}
-          value={activity.recent.length.toString()}
+          value={recent.length.toString()}
           label="DPIDs scanned"
         />
       </div>
 
-      {/* Recent */}
-      {activity.recent.length > 0 && (
+      {recent.length > 0 && (
         <Section title="Recently viewed">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {activity.recent.map((slug) => {
+            {recent.map((slug) => {
               const f = farmerLookup[slug];
               if (!f) return null;
               return (
@@ -203,17 +176,17 @@ export function BuyerDashboard({
         </Section>
       )}
 
-      {/* Tips */}
-      {activity.tips.length > 0 && (
+      {tips.length > 0 && (
         <Section title="Tips sent">
           <div className="bg-[var(--ivory)] rounded-3xl border border-[var(--line)] overflow-hidden divide-y divide-[var(--line)]">
-            {activity.tips.map((t, i) => {
+            {tips.map((t) => {
               const f = farmerLookup[t.slug];
               if (!f) return null;
               return (
-                <div
-                  key={i}
-                  className="flex items-center justify-between gap-3 px-4 py-3"
+                <Link
+                  key={t.id}
+                  href={`/farmers/${t.slug}`}
+                  className="flex items-center justify-between gap-3 px-4 py-3 tap"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <div
@@ -234,23 +207,22 @@ export function BuyerDashboard({
                   <span className="text-base font-extrabold tabular-nums text-[var(--clay)] flex-shrink-0">
                     +${t.amount}
                   </span>
-                </div>
+                </Link>
               );
             })}
           </div>
         </Section>
       )}
 
-      {/* Preorders */}
-      {activity.preorders.length > 0 && (
+      {preorders.length > 0 && (
         <Section title="Pre-orders locked">
           <div className="flex flex-col gap-3">
-            {activity.preorders.map((p, i) => {
+            {preorders.map((p) => {
               const f = farmerLookup[p.slug];
               if (!f) return null;
               return (
                 <Link
-                  key={i}
+                  key={p.id}
                   href={`/farmers/${p.slug}`}
                   className="bg-[var(--ivory)] rounded-2xl border border-[var(--line)] p-4 flex items-center justify-between gap-3 tap"
                 >
@@ -278,13 +250,12 @@ export function BuyerDashboard({
         </Section>
       )}
 
-      {/* Footer actions */}
       <div className="flex justify-end">
         <button
           onClick={clear}
           className="text-xs font-bold text-[var(--muted)] hover:text-[var(--clay)] underline-offset-2 hover:underline"
         >
-          Clear demo data
+          Clear all activity
         </button>
       </div>
     </div>
@@ -337,7 +308,11 @@ function Section({
 function relativeDate(ts: number) {
   const diff = Date.now() - ts;
   const days = Math.floor(diff / 86_400_000);
-  if (days < 1) return "today";
+  if (days < 1) {
+    const hours = Math.floor(diff / 3_600_000);
+    if (hours < 1) return "just now";
+    return `${hours}h ago`;
+  }
   if (days === 1) return "yesterday";
   if (days < 7) return `${days}d ago`;
   if (days < 30) return `${Math.floor(days / 7)}w ago`;
