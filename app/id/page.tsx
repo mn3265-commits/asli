@@ -150,7 +150,7 @@ export default function HomePageID() {
           <Stat
             value={islands.toString()}
             label="pulau sumber"
-            sub="Sumatra sampai Papua. Diverifikasi satelit."
+            sub="Sumatra sampai Papua. Dipantau satelit."
           />
           <Stat
             value={formatIDR(yearlyFarmerIncome)}
@@ -222,8 +222,8 @@ export default function HomePageID() {
                 tint="moss"
                 icon={<MapPin size={20} />}
                 num="01"
-                title="Asal-usul diverifikasi satelit"
-                body="Setiap lahan petani digeofence dan diambil baru dari Sentinel-2 setiap 5 hari. Pembeli melihat kebun aslinya dari satelit — plus bukti tidak ada deforestasi. Otomatis generate dokumen EUDR (Uni Eropa) dan FDA FSMA 204 (Amerika Serikat) dari data yang sama."
+                title="Tutupan lahan dipantau satelit"
+                body="Setiap lahan petani digeofence dan diambil baru dari Sentinel-2 setiap 5 hari. Pembeli melihat kebun aslinya dari satelit — plus alert deforestasi dan perubahan kanopi. Identitas batch diatestasi koperasi; satelit memverifikasi lahan, bukan karungnya. Otomatis generate dokumen due-diligence EUDR (Uni Eropa) dan FDA FSMA 204 (Amerika Serikat) dari data yang sama."
                 chip="EUDR + FDA FSMA-204 siap"
               />
             </Reveal>
@@ -331,6 +331,30 @@ export default function HomePageID() {
         </div>
       </section>
 
+      {/* ── HONEST-STAGE STRIP ───────────────────────────────────── */}
+      <section className="bg-[var(--ochre-soft)] border-y border-[var(--line)]">
+        <div className="max-w-3xl mx-auto px-5 sm:px-8 py-12 sm:py-14 text-center flex flex-col items-center gap-4">
+          <span className="text-[10px] uppercase tracking-widest font-bold text-[var(--clay)]">
+            ● posisi kami sebenarnya
+          </span>
+          <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight max-w-2xl">
+            Pre-seed. Nol koperasi yang ditandatangani. Satu orang di tim.
+          </h3>
+          <p className="text-base text-[var(--fg-soft)] max-w-xl leading-relaxed">
+            Asli adalah prototype yang berfungsi, bukan track record. Customer
+            yang membayar adalah eksportir (compliance EUDR / FSMA-204); upah
+            petani yang adil adalah efek hilirnya. Kami menulis kelemahan kami
+            di halaman yang sama dengan rencana kami.
+          </p>
+          <a
+            href="/id/strategy#viii-yang-tidak-kami-klaim"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--fg)] text-[var(--ivory)] text-sm font-bold tap"
+          >
+            Baca yang tidak kami klaim →
+          </a>
+        </div>
+      </section>
+
       {/* ── CTA FOOTER ────────────────────────────────────────────── */}
       <section className="bg-[var(--moss)] text-[var(--ivory)]">
         <div className="max-w-4xl mx-auto px-5 sm:px-8 py-20 sm:py-28 text-center flex flex-col items-center gap-6">
@@ -341,7 +365,7 @@ export default function HomePageID() {
           </h2>
           <p className="text-lg opacity-80 max-w-xl leading-relaxed">
             Asli adalah lapisan kepercayaan digital untuk ekspor komoditas
-            Indonesia. Petani didahulukan. Diverifikasi satelit. Spec terbuka.
+            Indonesia. Petani didahulukan. Dipantau satelit. Spec terbuka.
           </p>
           <div className="flex flex-wrap gap-3 justify-center mt-2">
             <Link

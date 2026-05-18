@@ -156,7 +156,33 @@ These targets are deliberately calibrated to be defensible at a *Greater Good Ch
 
 ---
 
-## VIII. Why this matters beyond economics
+## VIII. What we don't claim
+
+A strategic memo is more credible when it names its own weaknesses. We will name ours.
+
+**1. Sentinel-2 monitors land cover; it does not verify identity.** Free 10-meter imagery can detect deforestation, plot boundaries, and shade-canopy change. It cannot prove that a specific batch of coffee came from a specific farmer's plot. The chain-of-custody still rides on cooperative attestation. We are digitizing the attestation layer, not replacing the trust layer. Buyers should read our claims as *"land cover verified by satellite, batch provenance attested by cooperative."*
+
+**2. The DPID standard is open, which means it is not a moat.** Anyone — including Cargill, Olam, IBM Food Trust, Sourcemap, or a future Indonesian competitor — can adopt the spec. Our defensibility is **distribution and trust** (which cooperatives we work with, which buyers route through us, which regulators recognize our due-diligence statements), not protocol ownership. We are betting that open infrastructure compounds faster than closed silos in this market. If we are wrong, we lose.
+
+**3. Unit economics require concentration.** At USD 28–42 of platform revenue per farmer per year, we need ~3,500 active farmers to break even and ~50,000 to be venture-scale. That is achievable only by signing **cooperatives, not individual farmers** — and cooperative onboarding is slow, relationship-driven, and not parallelizable. We are not a fast-iterating SaaS. We are a slow-distribution trust network. Capital efficiency depends on choosing the right six cooperatives, not the most.
+
+**4. Our paying customer is the exporter/buyer, not the farmer.** The legal entity on the hook for EUDR (in 2025 enforcement) and FSMA 204 (in January 2026) is the importer. The farmer benefits from our platform but does not write us a check. This is a feature, not a bug — but it means we are a **B2B compliance and provenance SaaS** by revenue, and a farmer-economic-justice platform by mission. We will not pretend otherwise.
+
+**5. AI translation introduces a chain-of-custody seam.** Farmer voice memos pass through automated transcription and Claude-based translation before reaching buyers. Mistranscription, dialect mishandling, and translation drift are real risks. Every voice card on Asli must (and does) disclose: *"Translated by AI. Source audio available."* If we ever obscure that seam, we deserve the journalism that follows.
+
+**6. The voluntary carbon market is in the middle of a credibility crisis.** Verra, Gold Standard, and others have lost trust between 2022 and 2025. Our carbon ledger is therefore **transparency-first** (here is the calculation, here are the inputs) rather than offset-marketing. We do not sell "carbon-neutral" claims; we publish carbon balances. If the voluntary market never recovers, we still have a defensible provenance product.
+
+**7. The "farmer-as-brand" thesis is undertested at mainstream scale.** Premium consumers in specialty-coffee and bean-to-bar-chocolate niches respond to named farmers. The mainstream price-driven shopper may not. We are explicitly targeting the **5–15% of buyers who already pay a premium for ethical sourcing**, not the mass market. If that wedge does not grow, we plateau.
+
+**8. We do not own the trust chain end-to-end.** The cooperative that attests to a farmer's identity is itself a node we did not build. If the cooperative falsifies records, our DPID is lipstick. We mitigate via random satellite cross-checks, batch sampling, and buyer-side reputation scoring — but we cannot eliminate this risk.
+
+**9. Geographic concentration is a known fragility.** Indonesia's commodity-export regulation, currency controls, and data-residency policies could shift under any of the next several governments. We are designing for portability — the DPID spec is country-agnostic — but we are starting in Indonesia, and that is a single-country bet for the first three years.
+
+**10. We are pre-seed.** As of publication, Asli has zero signed cooperatives, zero paying buyers, and a one-person founding team. Everything in this memo is a plan, not a track record. We are publishing it openly because we believe the strongest version of this company is built in the open, with critics on the page rather than off it.
+
+---
+
+## IX. Why this matters beyond economics
 
 We will conclude with a paragraph not normally found in a strategic memo, because the work is not normally found in a strategic memo.
 

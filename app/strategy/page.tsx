@@ -61,7 +61,7 @@ export default async function StrategyPage() {
 
       <article className="prose-asli max-w-3xl mx-auto px-5 sm:px-8 pt-10 pb-24">
         {sections.map((sec, i) => (
-          <div key={i}>
+          <div key={i} id={sec.slug || undefined} className="scroll-mt-32">
             <div
               dangerouslySetInnerHTML={{
                 __html: marked.parse(sec.body, { gfm: true }) as string,

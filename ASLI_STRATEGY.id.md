@@ -156,7 +156,33 @@ Target ini sengaja dikalibrasi agar dapat dipertahankan di presentasi *Greater G
 
 ---
 
-## VIII. Kenapa ini penting di luar ekonomi
+## VIII. Yang tidak kami klaim
+
+Memo strategis lebih kredibel ketika ia menyebut kelemahannya sendiri. Kami akan menyebut yang kami punya.
+
+**1. Sentinel-2 memantau tutupan lahan; ia tidak memverifikasi identitas.** Citra 10 meter gratis bisa mendeteksi deforestasi, batas lahan, dan perubahan kanopi peneduh. Ia tidak bisa membuktikan bahwa batch kopi spesifik berasal dari lahan petani spesifik. Rantai jaminan masih bergantung pada atestasi koperasi. Kami mendigitalkan lapisan atestasi, bukan menggantikan lapisan kepercayaan. Pembeli sebaiknya membaca klaim kami sebagai *"tutupan lahan diverifikasi satelit, provenance batch diatestasi koperasi."*
+
+**2. Standar DPID terbuka, artinya bukan moat.** Siapa pun — termasuk Cargill, Olam, IBM Food Trust, Sourcemap, atau kompetitor Indonesia di masa depan — bisa mengadopsi spesifikasinya. Ketahanan kami adalah **distribusi dan kepercayaan** (koperasi mana yang bekerja dengan kami, pembeli mana yang routing lewat kami, regulator mana yang mengakui due-diligence statement kami), bukan kepemilikan protokol. Kami bertaruh bahwa infrastruktur terbuka bertumbuh lebih cepat dari silo tertutup di pasar ini. Kalau kami salah, kami kalah.
+
+**3. Unit ekonomi butuh konsentrasi.** Pada pendapatan platform USD 28–42 per petani per tahun, kami butuh ~3,500 petani aktif untuk break-even dan ~50,000 untuk venture-scale. Ini hanya tercapai dengan menandatangani **koperasi, bukan petani individual** — dan onboarding koperasi itu lambat, berbasis relasi, dan tidak bisa diparalelkan. Kami bukan SaaS yang iterasi cepat. Kami jaringan kepercayaan dengan distribusi lambat. Efisiensi modal bergantung pada memilih enam koperasi yang tepat, bukan yang terbanyak.
+
+**4. Customer yang membayar kami adalah eksportir/pembeli, bukan petani.** Entitas hukum yang bertanggung jawab untuk EUDR (enforcement 2025) dan FSMA 204 (Januari 2026) adalah importir. Petani mendapat manfaat dari platform kami tapi tidak menulis cek untuk kami. Ini fitur, bukan bug — tapi artinya kami secara revenue adalah **SaaS B2B compliance dan provenance**, dan secara misi adalah platform keadilan ekonomi petani. Kami tidak akan berpura-pura sebaliknya.
+
+**5. Terjemahan AI memperkenalkan jahitan dalam chain-of-custody.** Voice memo petani melewati transkripsi otomatis dan terjemahan berbasis Claude sebelum sampai ke pembeli. Salah transkripsi, salah penanganan dialek, dan drift terjemahan adalah risiko nyata. Setiap voice card di Asli harus (dan sudah) memberi tahu: *"Diterjemahkan oleh AI. Audio sumber tersedia."* Kalau kami pernah mengaburkan jahitan ini, kami pantas mendapat jurnalisme yang mengikutinya.
+
+**6. Pasar karbon sukarela sedang dalam krisis kredibilitas.** Verra, Gold Standard, dan lainnya kehilangan kepercayaan antara 2022 dan 2025. Karena itu buku besar karbon kami **mengutamakan transparansi** (ini perhitungannya, ini inputnya) daripada offset-marketing. Kami tidak menjual klaim "carbon-neutral"; kami mempublikasikan saldo karbon. Kalau pasar sukarela tidak pernah pulih, kami masih punya produk provenance yang defensibel.
+
+**7. Tesis "farmer-as-brand" belum diuji pada skala mainstream.** Konsumen premium di specialty coffee dan bean-to-bar chocolate merespons petani-bernama. Pembeli mainstream yang price-driven mungkin tidak. Kami secara eksplisit menarget **5–15% pembeli yang sudah membayar premium untuk sourcing etis**, bukan pasar massal. Kalau wedge itu tidak tumbuh, kami plateau.
+
+**8. Kami tidak memiliki rantai kepercayaan ujung-ke-ujung.** Koperasi yang mengatestasi identitas petani sendiri adalah node yang bukan kami bangun. Kalau koperasi memalsukan catatan, DPID kami hanya lipstik. Kami memitigasi via cross-check satelit acak, sampling batch, dan reputation scoring sisi pembeli — tapi kami tidak bisa menghapus risiko ini.
+
+**9. Konsentrasi geografis adalah fragility yang diketahui.** Regulasi ekspor komoditas Indonesia, kontrol mata uang, dan kebijakan data-residency bisa bergeser di pemerintahan mana pun yang berikutnya. Kami desain untuk portabilitas — spesifikasi DPID country-agnostic — tapi kami mulai di Indonesia, dan itu adalah taruhan satu-negara untuk tiga tahun pertama.
+
+**10. Kami pre-seed.** Per publikasi, Asli punya nol koperasi yang ditandatangani, nol pembeli yang membayar, dan tim pendiri satu-orang. Semua yang ada di memo ini adalah rencana, bukan track record. Kami mempublikasikannya secara terbuka karena kami percaya versi terkuat dari perusahaan ini dibangun di tempat terbuka, dengan kritikus di halaman ini bukan di luar.
+
+---
+
+## IX. Kenapa ini penting di luar ekonomi
 
 Kami akan menutup dengan paragraf yang biasanya tidak ditemukan dalam memo strategis, karena pekerjaannya juga biasanya tidak ditemukan dalam memo strategis.
 

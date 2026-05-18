@@ -198,6 +198,15 @@ export function VoiceCard({
             ? "Demo · seeded translation (live Claude when API key set)"
             : "Loading translator…"}
       </p>
+      <div className="mt-4 pt-4 border-t border-[var(--line)] flex items-start gap-2 text-[11px] text-[var(--muted)] leading-relaxed">
+        <span className="flex-shrink-0 mt-0.5">⚠</span>
+        <span>
+          <strong className="text-[var(--fg-soft)]">Translated by AI.</strong>{" "}
+          Source audio in the farmer&apos;s dialect is preserved and available
+          on request. Translation may carry small drift; buyers should treat
+          this as a faithful paraphrase, not a verbatim transcript.
+        </span>
+      </div>
     </div>
   );
 }

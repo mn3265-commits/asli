@@ -151,7 +151,7 @@ export default function HomePage() {
           <Stat
             value={islands.toString()}
             label="islands sourced"
-            sub="Sumatra to Papua. Verified by satellite."
+            sub="Sumatra to Papua. Monitored by satellite."
           />
           <Stat
             value={formatIDR(yearlyFarmerIncome)}
@@ -221,8 +221,8 @@ export default function HomePage() {
                 tint="moss"
                 icon={<MapPin size={20} />}
                 num="01"
-                title="Satellite-verified origin"
-                body="Each farmer's plot is geofenced and pulled fresh from Sentinel-2 every 5 days. Buyers see the actual farm from space — and proof of no deforestation. Auto-generates the paperwork for EU's EUDR and US FDA FSMA 204 traceability from the same data."
+                title="Satellite-monitored land cover"
+                body="Each farmer's plot is geofenced and pulled fresh from Sentinel-2 every 5 days. Buyers see the actual farm from space — plus deforestation alerts and canopy change. Batch identity is attested by the cooperative; satellite verifies the land, not the bag. Auto-generates EUDR (EU) and FDA FSMA 204 (US) due-diligence paperwork from the same data."
                 chip="EUDR + FDA FSMA-204 ready"
               />
             </Reveal>
@@ -330,6 +330,30 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── HONEST-STAGE STRIP ───────────────────────────────────── */}
+      <section className="bg-[var(--ochre-soft)] border-y border-[var(--line)]">
+        <div className="max-w-3xl mx-auto px-5 sm:px-8 py-12 sm:py-14 text-center flex flex-col items-center gap-4">
+          <span className="text-[10px] uppercase tracking-widest font-bold text-[var(--clay)]">
+            ● where we actually are
+          </span>
+          <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight max-w-2xl">
+            Pre-seed. Zero cooperatives signed. One person on the team.
+          </h3>
+          <p className="text-base text-[var(--fg-soft)] max-w-xl leading-relaxed">
+            Asli is a working prototype, not a track record. The paying customer
+            is the exporter (EUDR / FSMA-204 compliance); fair farmer pay is the
+            downstream effect. We publish our weaknesses on the same page as our
+            plan.
+          </p>
+          <a
+            href="/strategy#viii-what-we-dont-claim"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--fg)] text-[var(--ivory)] text-sm font-bold tap"
+          >
+            Read what we don&apos;t claim →
+          </a>
+        </div>
+      </section>
+
       {/* ── CTA FOOTER ────────────────────────────────────────────── */}
       <section className="bg-[var(--moss)] text-[var(--ivory)]">
         <div className="max-w-4xl mx-auto px-5 sm:px-8 py-20 sm:py-28 text-center flex flex-col items-center gap-6">
@@ -340,7 +364,7 @@ export default function HomePage() {
           </h2>
           <p className="text-lg opacity-80 max-w-xl leading-relaxed">
             Asli is the digital trust layer for Indonesian commodity exports.
-            Farmer-first. Satellite-verified. Open spec.
+            Farmer-first. Satellite-monitored. Open spec.
           </p>
           <div className="flex flex-wrap gap-3 justify-center mt-2">
             <Link
