@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Menu, X, ChevronDown } from "lucide-react";
 
 export function TopNav() {
   const pathname = usePathname() || "/";
   const isID = pathname === "/id" || pathname.startsWith("/id/");
   const [open, setOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
 
   const counterpart = isID
     ? pathname === "/id"
@@ -29,9 +31,11 @@ export function TopNav() {
         faq: "FAQ",
         roadmap: "Roadmap",
         sources: "Sumber",
+        more: "Lainnya",
         switchTo: "Ganti ke English",
         menu: "Menu",
         close: "Tutup",
+        primary: "Utama",
       }
     : {
         farmers: "Farmers",
@@ -43,9 +47,11 @@ export function TopNav() {
         faq: "FAQ",
         roadmap: "Roadmap",
         sources: "Sources",
+        more: "More",
         switchTo: "Switch to English",
         menu: "Menu",
         close: "Close",
+        primary: "Main",
       };
 
   const prefix = isID ? "/id" : "";
@@ -61,12 +67,27 @@ export function TopNav() {
     sources: `${prefix}/sources`,
   };
 
-  // Close menu on route change
+  // Same item structure used by both mobile overlay and desktop inline
+  const primaryItems = [
+    { href: links.farmers, label: labels.farmers },
+    { href: links.how, label: labels.how },
+    { href: links.impact, label: labels.impact },
+    { href: links.spec, label: labels.spec },
+    { href: links.memo, label: labels.memo },
+  ];
+  const moreItems = [
+    { href: links.faq, label: labels.faq },
+    { href: links.roadmap, label: labels.roadmap },
+    { href: links.sources, label: labels.sources },
+  ];
+
+  // Close menus on route change
   useEffect(() => {
     setOpen(false);
+    setMoreOpen(false);
   }, [pathname]);
 
-  // Lock body scroll when menu open
+  // Lock body scroll when mobile menu open
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -77,6 +98,25 @@ export function TopNav() {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  // Close "More" dropdown when clicking outside
+  useEffect(() => {
+    if (!moreOpen) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
+        setMoreOpen(false);
+      }
+    };
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMoreOpen(false);
+    };
+    document.addEventListener("mousedown", onDocClick);
+    document.addEventListener("keydown", onEsc);
+    return () => {
+      document.removeEventListener("mousedown", onDocClick);
+      document.removeEventListener("keydown", onEsc);
+    };
+  }, [moreOpen]);
 
   return (
     <>
@@ -94,44 +134,53 @@ export function TopNav() {
             </span>
           </Link>
 
-          {/* Inline links — sm and up */}
-          <div className="hidden sm:flex items-center gap-0.5 sm:gap-2 text-sm font-semibold">
-            <Link
-              href={links.farmers}
-              className="px-3 py-2 rounded-full text-[var(--fg-soft)] hover:text-[var(--moss)] tap"
-            >
-              {labels.farmers}
-            </Link>
-            <Link
-              href={links.how}
-              className="px-3 py-2 rounded-full text-[var(--fg-soft)] hover:text-[var(--moss)] tap"
-            >
-              {labels.how}
-            </Link>
-            <Link
-              href={links.impact}
-              className="px-3 py-2 rounded-full text-[var(--fg-soft)] hover:text-[var(--moss)] tap hidden md:inline-block"
-            >
-              {labels.impact}
-            </Link>
-            <Link
-              href={links.spec}
-              className="px-3 py-2 rounded-full text-[var(--fg-soft)] hover:text-[var(--moss)] tap hidden md:inline-block"
-            >
-              {labels.spec}
-            </Link>
-            <Link
-              href={links.memo}
-              className="px-3 py-2 rounded-full text-[var(--fg-soft)] hover:text-[var(--moss)] tap hidden lg:inline-block"
-            >
-              {labels.memo}
-            </Link>
-            <Link
-              href={links.faq}
-              className="px-3 py-2 rounded-full text-[var(--fg-soft)] hover:text-[var(--moss)] tap hidden lg:inline-block"
-            >
-              {labels.faq}
-            </Link>
+          {/* Inline nav — md and up. Below md uses the hamburger overlay so
+              both surfaces show the same 5 primary + 3 "more" items. */}
+          <div className="hidden md:flex items-center gap-0.5 lg:gap-1 text-sm font-semibold">
+            {primaryItems.map((it) => (
+              <Link
+                key={it.href}
+                href={it.href}
+                className="px-3 py-2 rounded-full text-[var(--fg-soft)] hover:text-[var(--moss)] tap"
+              >
+                {it.label}
+              </Link>
+            ))}
+
+            {/* More dropdown */}
+            <div className="relative" ref={moreRef}>
+              <button
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded={moreOpen}
+                onClick={() => setMoreOpen((p) => !p)}
+                className="px-3 py-2 rounded-full text-[var(--fg-soft)] hover:text-[var(--moss)] tap inline-flex items-center gap-1"
+              >
+                {labels.more}
+                <ChevronDown
+                  size={14}
+                  className={`transition-transform ${moreOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+              {moreOpen && (
+                <div
+                  role="menu"
+                  className="absolute right-0 mt-2 min-w-[180px] bg-[var(--ivory)] border border-[var(--line)] rounded-2xl shadow-lg overflow-hidden animate-[fade-up_0.15s_ease-out]"
+                >
+                  {moreItems.map((it) => (
+                    <Link
+                      key={it.href}
+                      role="menuitem"
+                      href={it.href}
+                      onClick={() => setMoreOpen(false)}
+                      className="block px-4 py-3 text-sm font-semibold text-[var(--fg)] hover:bg-[var(--moss-soft)] hover:text-[var(--moss)] tap"
+                    >
+                      {it.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <Link
               href={counterpart}
@@ -151,8 +200,8 @@ export function TopNav() {
             </Link>
           </div>
 
-          {/* Hamburger — mobile only */}
-          <div className="flex sm:hidden items-center gap-2">
+          {/* Mobile cluster — below md */}
+          <div className="flex md:hidden items-center gap-2">
             <Link
               href={counterpart}
               className="px-2.5 py-1 rounded-full bg-[var(--bg-deep)] text-[var(--fg-soft)] text-xs font-bold tap border border-[var(--line)]"
@@ -174,9 +223,9 @@ export function TopNav() {
         </nav>
       </header>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile overlay — same primary + more grouping as desktop */}
       {open && (
-        <div className="fixed inset-0 z-50 sm:hidden bg-[var(--bg)] flex flex-col animate-[fade-up_0.2s_ease-out]">
+        <div className="fixed inset-0 z-50 md:hidden bg-[var(--bg)] flex flex-col animate-[fade-up_0.2s_ease-out]">
           <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--line)]">
             <Link
               href={isID ? "/id" : "/"}
@@ -200,18 +249,19 @@ export function TopNav() {
           </div>
 
           <nav className="flex-1 overflow-y-auto px-5 py-6 flex flex-col">
-            <MenuLink href={links.farmers} label={labels.farmers} />
-            <MenuLink href={links.how} label={labels.how} />
-            <MenuLink href={links.impact} label={labels.impact} />
-            <MenuLink href={links.spec} label={labels.spec} />
-            <MenuLink href={links.memo} label={labels.memo} />
+            <div className="text-[10px] uppercase tracking-widest font-bold text-[var(--muted)] mb-2 px-1">
+              {labels.primary}
+            </div>
+            {primaryItems.map((it) => (
+              <MenuLink key={it.href} href={it.href} label={it.label} />
+            ))}
 
             <div className="text-[10px] uppercase tracking-widest font-bold text-[var(--muted)] mt-6 mb-2 px-1">
-              {isID ? "Lainnya" : "More"}
+              {labels.more}
             </div>
-            <MenuLink href={links.faq} label={labels.faq} />
-            <MenuLink href={links.roadmap} label={labels.roadmap} />
-            <MenuLink href={links.sources} label={labels.sources} />
+            {moreItems.map((it) => (
+              <MenuLink key={it.href} href={it.href} label={it.label} />
+            ))}
 
             <div className="mt-auto pt-6">
               <Link
