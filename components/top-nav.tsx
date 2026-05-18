@@ -23,10 +23,10 @@ export function TopNav() {
   const links = {
     farmers: isID ? "/id/farmers" : "/farmers",
     how: isID ? "/id/how" : "/how",
-    impact: "/impact",
-    spec: "/spec",
-    memo: "/strategy",
-    scan: "/scan",
+    impact: isID ? "/id/impact" : "/impact",
+    spec: isID ? "/id/spec" : "/spec",
+    memo: isID ? "/id/strategy" : "/strategy",
+    scan: isID ? "/id/scan" : "/scan",
   };
 
   return (

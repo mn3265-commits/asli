@@ -12,7 +12,36 @@ const SAMPLE_DPIDS = FARMERS.map((f) => ({
   commodity: f.commodityLabel.split(",")[0],
 }));
 
-export function ScanWidget() {
+type Lang = "en" | "id";
+const ST = {
+  en: {
+    cameraTitle: "Camera scan",
+    cameraSub: "Point your phone at any Asli QR.",
+    tap: "Tap to open camera",
+    cameraDenied: "Camera access denied or unavailable. Try entering a DPID manually below.",
+    alignFrame: "Align QR within the frame",
+    manualTitle: "Or enter a DPID",
+    manualSub: "Format: ASLI-XXX-YYYY-NNNN",
+    open: "Open",
+    sampleTitle: "Try a sample DPID",
+    sampleSub: "Don't have a real QR? Open one of these.",
+  },
+  id: {
+    cameraTitle: "Pindai kamera",
+    cameraSub: "Arahkan ponsel ke QR Asli mana pun.",
+    tap: "Tap untuk buka kamera",
+    cameraDenied: "Akses kamera ditolak atau tidak tersedia. Coba masukkan DPID manual di bawah.",
+    alignFrame: "Sejajarkan QR dalam frame",
+    manualTitle: "Atau masukkan DPID",
+    manualSub: "Format: ASLI-XXX-YYYY-NNNN",
+    open: "Buka",
+    sampleTitle: "Coba sample DPID",
+    sampleSub: "Tidak punya QR asli? Buka salah satu di bawah.",
+  },
+};
+
+export function ScanWidget({ lang = "en" }: { lang?: Lang } = {}) {
+  const t = ST[lang];
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [cameraOn, setCameraOn] = useState(false);
@@ -47,9 +76,7 @@ export function ScanWidget() {
         setCameraOn(true);
       }
     } catch {
-      setCameraError(
-        "Camera access denied or unavailable. Try entering a DPID manually below.",
-      );
+      setCameraError(t.cameraDenied);
     }
   };
 
@@ -76,10 +103,10 @@ export function ScanWidget() {
       <div className="bg-[var(--ivory)] rounded-3xl border border-[var(--line)] p-5 sm:p-6 chunky-shadow-soft">
         <div className="flex items-center gap-2 mb-1">
           <Camera size={18} className="text-[var(--moss)]" />
-          <h2 className="text-xl font-extrabold">Camera scan</h2>
+          <h2 className="text-xl font-extrabold">{t.cameraTitle}</h2>
         </div>
         <p className="text-sm text-[var(--muted)] mb-4">
-          Point your phone at any Asli QR.
+          {t.cameraSub}
         </p>
 
         {!cameraOn && (
@@ -89,7 +116,7 @@ export function ScanWidget() {
           >
             <Camera size={32} className="text-[var(--muted)]" />
             <span className="text-sm font-bold text-[var(--fg-soft)]">
-              Tap to open camera
+              {t.tap}
             </span>
             {cameraError && (
               <span className="text-xs text-[var(--clay)] max-w-[18rem] text-center px-4">
@@ -119,7 +146,7 @@ export function ScanWidget() {
               </div>
               <div className="absolute bottom-4 left-0 right-0 flex justify-center">
                 <span className="bg-[var(--ivory)] rounded-full px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold text-[var(--fg)]">
-                  Align QR within the frame
+                  {t.alignFrame}
                 </span>
               </div>
             </div>
@@ -136,10 +163,8 @@ export function ScanWidget() {
 
       {/* Manual entry */}
       <div className="bg-[var(--ivory)] rounded-3xl border border-[var(--line)] p-5 sm:p-6">
-        <h2 className="text-xl font-extrabold mb-1">Or enter a DPID</h2>
-        <p className="text-sm text-[var(--muted)] mb-4">
-          Format: ASLI-XXX-YYYY-NNNN
-        </p>
+        <h2 className="text-xl font-extrabold mb-1">{t.manualTitle}</h2>
+        <p className="text-sm text-[var(--muted)] mb-4">{t.manualSub}</p>
         <div className="flex gap-2">
           <input
             value={manualId}
@@ -153,7 +178,7 @@ export function ScanWidget() {
             disabled={!manualId}
             className="px-5 py-3 rounded-full bg-[var(--moss)] text-[var(--ivory)] font-bold tap disabled:opacity-40"
           >
-            Open
+            {t.open}
           </button>
         </div>
       </div>
@@ -162,11 +187,9 @@ export function ScanWidget() {
       <div className="bg-[var(--bg-deep)] rounded-3xl border border-[var(--line)] p-5 sm:p-6">
         <div className="flex items-center gap-2 mb-1">
           <Sparkles size={16} className="text-[var(--ochre)]" />
-          <h2 className="text-base font-extrabold">Try a sample DPID</h2>
+          <h2 className="text-base font-extrabold">{t.sampleTitle}</h2>
         </div>
-        <p className="text-xs text-[var(--muted)] mb-4">
-          Don&apos;t have a real QR? Open one of these.
-        </p>
+        <p className="text-xs text-[var(--muted)] mb-4">{t.sampleSub}</p>
         <ul className="flex flex-col gap-2">
           {SAMPLE_DPIDS.slice(0, 4).map((s) => (
             <li key={s.id}>

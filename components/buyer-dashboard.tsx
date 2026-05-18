@@ -34,11 +34,50 @@ type FarmerLookup = Record<
   }
 >;
 
+type Lang = "en" | "id";
+const DT = {
+  en: {
+    empty: "Your dashboard is empty",
+    emptySub: "Scan your first DPID, send a tip, or pre-order a harvest — and everything will live here.",
+    scanBtn: "Scan a DPID",
+    seedBtn: "Seed demo data",
+    tipped: "Tipped direct",
+    preorders: "Pre-orders",
+    helped: "Farmers helped",
+    scanned: "DPIDs scanned",
+    recent: "Recently viewed",
+    tipsSent: "Tips sent",
+    locked: "Pre-orders locked",
+    lockedChip: "locked",
+    nextHarvest: "Next harvest · Sept–Dec 2026",
+    clear: "Clear all activity",
+  },
+  id: {
+    empty: "Dasbormu masih kosong",
+    emptySub: "Pindai DPID pertamamu, kirim tip, atau pre-order panen — semuanya akan ada di sini.",
+    scanBtn: "Pindai DPID",
+    seedBtn: "Isi data demo",
+    tipped: "Tip langsung",
+    preorders: "Pre-order",
+    helped: "Petani dibantu",
+    scanned: "DPID terpindai",
+    recent: "Baru dilihat",
+    tipsSent: "Tip terkirim",
+    locked: "Pre-order terkunci",
+    lockedChip: "terkunci",
+    nextHarvest: "Panen berikutnya · Sept–Des 2026",
+    clear: "Hapus semua aktivitas",
+  },
+};
+
 export function BuyerDashboard({
   farmerLookup,
+  lang = "en",
 }: {
   farmerLookup: FarmerLookup;
+  lang?: Lang;
 }) {
+  const dt = DT[lang];
   const [tips, setTips] = useState<Tip[]>([]);
   const [preorders, setPreorders] = useState<Preorder[]>([]);
   const [recent, setRecent] = useState<string[]>([]);
@@ -91,23 +130,22 @@ export function BuyerDashboard({
     return (
       <div className="bg-[var(--ivory)] rounded-3xl border border-[var(--line)] p-10 sm:p-14 text-center flex flex-col items-center gap-4 chunky-shadow-soft">
         <History size={48} className="text-[var(--muted)]" />
-        <h2 className="text-2xl font-extrabold">Your dashboard is empty</h2>
+        <h2 className="text-2xl font-extrabold">{dt.empty}</h2>
         <p className="text-sm text-[var(--fg-soft)] max-w-md leading-relaxed">
-          Scan your first DPID, send a tip, or pre-order a harvest — and
-          everything will live here.
+          {dt.emptySub}
         </p>
         <div className="flex flex-wrap gap-3 mt-3 justify-center">
           <Link
-            href="/scan"
+            href={lang === "id" ? "/id/scan" : "/scan"}
             className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[var(--moss)] text-[var(--ivory)] font-bold tap"
           >
-            <ScanLine size={16} /> Scan a DPID
+            <ScanLine size={16} /> {dt.scanBtn}
           </Link>
           <button
             onClick={seedDemo}
             className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[var(--ivory)] text-[var(--fg)] border border-[var(--line)] font-bold tap"
           >
-            <Sparkles size={16} /> Seed demo data
+            <Sparkles size={16} /> {dt.seedBtn}
           </button>
         </div>
       </div>
@@ -117,34 +155,14 @@ export function BuyerDashboard({
   return (
     <div className="flex flex-col gap-8">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <StatBox
-          tint="moss"
-          icon={<Heart size={16} />}
-          value={`$${totalTipped}`}
-          label="Tipped direct"
-        />
-        <StatBox
-          tint="ochre"
-          icon={<Clock size={16} />}
-          value={preorders.length.toString()}
-          label="Pre-orders"
-        />
-        <StatBox
-          tint="indigo"
-          icon={<Leaf size={16} />}
-          value={`${uniqueFarmers}`}
-          label="Farmers helped"
-        />
-        <StatBox
-          tint="clay"
-          icon={<ScanLine size={16} />}
-          value={recent.length.toString()}
-          label="DPIDs scanned"
-        />
+        <StatBox tint="moss" icon={<Heart size={16} />} value={`$${totalTipped}`} label={dt.tipped} />
+        <StatBox tint="ochre" icon={<Clock size={16} />} value={preorders.length.toString()} label={dt.preorders} />
+        <StatBox tint="indigo" icon={<Leaf size={16} />} value={`${uniqueFarmers}`} label={dt.helped} />
+        <StatBox tint="clay" icon={<ScanLine size={16} />} value={recent.length.toString()} label={dt.scanned} />
       </div>
 
       {recent.length > 0 && (
-        <Section title="Recently viewed">
+        <Section title={dt.recent}>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {recent.map((slug) => {
               const f = farmerLookup[slug];
@@ -177,7 +195,7 @@ export function BuyerDashboard({
       )}
 
       {tips.length > 0 && (
-        <Section title="Tips sent">
+        <Section title={dt.tipsSent}>
           <div className="bg-[var(--ivory)] rounded-3xl border border-[var(--line)] overflow-hidden divide-y divide-[var(--line)]">
             {tips.map((t) => {
               const f = farmerLookup[t.slug];
@@ -215,7 +233,7 @@ export function BuyerDashboard({
       )}
 
       {preorders.length > 0 && (
-        <Section title="Pre-orders locked">
+        <Section title={dt.locked}>
           <div className="flex flex-col gap-3">
             {preorders.map((p) => {
               const f = farmerLookup[p.slug];
@@ -238,11 +256,11 @@ export function BuyerDashboard({
                         {f.name}
                       </p>
                       <p className="text-xs text-[var(--muted)]">
-                        Next harvest · Sept–Dec 2026
+                        {dt.nextHarvest}
                       </p>
                     </div>
                   </div>
-                  <span className="chip flex-shrink-0">locked</span>
+                  <span className="chip flex-shrink-0">{dt.lockedChip}</span>
                 </Link>
               );
             })}
@@ -255,7 +273,7 @@ export function BuyerDashboard({
           onClick={clear}
           className="text-xs font-bold text-[var(--muted)] hover:text-[var(--clay)] underline-offset-2 hover:underline"
         >
-          Clear all activity
+          {dt.clear}
         </button>
       </div>
     </div>

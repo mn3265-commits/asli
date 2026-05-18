@@ -1,0 +1,341 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  MapPin,
+  Calendar,
+  Leaf,
+  Heart,
+  Mic,
+  Sparkles,
+  Satellite,
+} from "lucide-react";
+import {
+  FARMERS,
+  getFarmer,
+  formatIDR,
+  formatUSD,
+  portraitUrl,
+} from "@/lib/data";
+import { SatelliteMap } from "@/components/satellite-map";
+import { VoiceCard } from "@/components/voice-card";
+import { TipForm } from "@/components/tip-form";
+import { CommodityArt } from "@/components/commodity-art";
+import { PreorderForm } from "@/components/preorder-form";
+import { ViewTracker } from "@/components/view-tracker";
+import { TipsRunningTotal } from "@/components/tips-running-total";
+
+type PageProps = { params: Promise<{ slug: string }> };
+
+export async function generateStaticParams() {
+  return FARMERS.map((f) => ({ slug: f.slug }));
+}
+
+export async function generateMetadata({ params }: PageProps) {
+  const { slug } = await params;
+  const f = getFarmer(slug);
+  if (!f) return { title: "Asli" };
+  return {
+    title: `${f.name} — ${f.commodityLabel} | Asli`,
+    description: f.story.slice(0, 140),
+  };
+}
+
+export default async function FarmerDPIDPageID({ params }: PageProps) {
+  const { slug } = await params;
+  const f = getFarmer(slug);
+  if (!f) notFound();
+  const co2Kg = Math.abs(f.batch.co2PerKgGrams * f.batch.weightKg) / 1000;
+
+  return (
+    <>
+      <ViewTracker slug={f.slug} />
+
+      <div className="relative h-32 sm:h-48 overflow-hidden">
+        <CommodityArt
+          commodity={f.commodity}
+          seed={f.slug}
+          variant="hero"
+          className="w-full h-full"
+        />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[var(--bg)] to-transparent" />
+      </div>
+
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 pt-4 -mt-8 relative">
+        <Link
+          href="/id/farmers"
+          className="inline-flex items-center gap-2 text-sm font-bold text-[var(--ivory)] bg-[var(--fg)]/80 backdrop-blur-md px-3 py-2 rounded-full hover:bg-[var(--fg)] tap"
+        >
+          <ArrowLeft size={16} />
+          Semua petani
+        </Link>
+      </div>
+
+      {/* HERO */}
+      <section className="paper">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8 pt-6 pb-12">
+          <div className="bg-[var(--ivory)] rounded-3xl border border-[var(--line)] p-6 sm:p-10 chunky-shadow flex flex-col lg:flex-row gap-10 fade-up">
+            <div className="flex flex-col gap-5 lg:max-w-sm">
+              <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest font-bold text-[var(--moss)]">
+                <CheckCircle2 size={12} />
+                Terverifikasi Asli · DPID · {f.batch.id}
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div
+                  className="w-24 h-24 rounded-full overflow-hidden ring-4 flex-shrink-0 relative"
+                  style={
+                    {
+                      background: `var(--${f.tint}-soft)`,
+                      "--tw-ring-color": `var(--${f.tint}-soft)`,
+                    } as React.CSSProperties
+                  }
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={portraitUrl(f.slug, 200)}
+                    alt={f.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <span className="absolute -bottom-1 -right-1 text-2xl drop-shadow-md">
+                    {f.emoji}
+                  </span>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p
+                    className="text-[10px] uppercase tracking-widest font-bold mb-1"
+                    style={{ color: `var(--${f.tint})` }}
+                  >
+                    {f.commodityLabel}
+                  </p>
+                  <h1 className="text-3xl sm:text-4xl font-extrabold leading-[1.05] tracking-tight">
+                    {f.name}
+                  </h1>
+                  <p className="text-sm text-[var(--muted)] mt-1.5 inline-flex items-center gap-1.5">
+                    <MapPin size={12} />
+                    {f.village}, {f.region}, {f.island}
+                  </p>
+                </div>
+              </div>
+
+              <blockquote className="text-base sm:text-lg text-[var(--fg-soft)] italic leading-relaxed border-l-2 border-[var(--ochre)] pl-4">
+                &ldquo;{f.story}&rdquo;
+              </blockquote>
+
+              <div className="flex flex-wrap gap-1.5 mt-1">
+                {f.practices.map((p) => (
+                  <span key={p} className="chip">
+                    {p}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex-1 flex flex-col gap-4 min-w-0">
+              <div
+                className="rounded-2xl p-6"
+                style={{ background: `var(--${f.tint}-soft)` }}
+              >
+                <p className="text-xs uppercase tracking-widest font-bold opacity-70 mb-1">
+                  Batch ini · {f.batch.weightKg}kg
+                </p>
+                <p className="text-4xl sm:text-5xl font-extrabold tabular-nums leading-none mt-2">
+                  {formatIDR(f.thisBatchEarned)}
+                </p>
+                <p className="text-sm font-medium mt-2 opacity-80">
+                  Langsung ke {f.name.split(" ").slice(-1)[0]} batch ini
+                </p>
+                <div className="mt-4 pt-4 border-t border-[var(--fg)]/10 flex items-center justify-between text-xs font-semibold">
+                  <span className="opacity-70">Pendapatan 2026 sejauh ini</span>
+                  <span className="tabular-nums opacity-90">
+                    {formatIDR(f.yearlyEarned)}
+                  </span>
+                </div>
+                <TipsRunningTotal
+                  slug={f.slug}
+                  firstName={f.name.split(" ").slice(-1)[0]}
+                  lang="id"
+                />
+              </div>
+
+              <div className="grid grid-cols-3 gap-2">
+                <KeyStat icon={<Heart size={14} />} value={`${f.batch.farmerSharePct}%`} label="ke petani" />
+                <KeyStat icon={<Leaf size={14} />} value={`${co2Kg.toFixed(1)}kg`} label="CO₂ diserap" />
+                <KeyStat icon={<Calendar size={14} />} value={daysAgoID(f.batch.harvestedAt)} label="dipanen" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PRICE BREAKDOWN */}
+      <section className="paper">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8 pb-12">
+          <div className="bg-[var(--ivory)] rounded-3xl border border-[var(--line)] p-6 sm:p-8">
+            <h2 className="text-xl font-extrabold mb-1">
+              Ke mana setiap dolar pergi
+            </h2>
+            <p className="text-sm text-[var(--muted)] mb-6">
+              Harga grosir: {formatUSD(f.batch.pricePerKgUsd)}/kg · batch {f.batch.weightKg}kg
+            </p>
+            <PriceBarID tint={f.tint} farmerPct={f.batch.farmerSharePct} commodity={f.commodity} />
+          </div>
+        </div>
+      </section>
+
+      {/* SATELLITE */}
+      <section className="paper">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8 pb-12">
+          <div className="bg-[var(--ivory)] rounded-3xl border border-[var(--line)] p-6 sm:p-8">
+            <div className="flex items-center gap-2 mb-1">
+              <Satellite size={18} className="text-[var(--indigo)]" />
+              <h2 className="text-xl font-extrabold">Kebun — dari luar angkasa</h2>
+            </div>
+            <p className="text-sm text-[var(--muted)] mb-5">
+              Koordinat: {f.lat.toFixed(4)}°, {f.lng.toFixed(4)}° · Sentinel-2 · diperbarui tiap 5 hari · Tidak ada deforestasi sejak 2018
+            </p>
+            <SatelliteMap lat={f.lat} lng={f.lng} farmerName={f.name} />
+          </div>
+        </div>
+      </section>
+
+      {/* AI VOICE */}
+      <section className="paper">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8 pb-12">
+          <VoiceCard farmerName={f.name} villageName={f.village} />
+        </div>
+      </section>
+
+      {/* TIP + PRE-ORDER */}
+      <section className="paper">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8 pb-12 grid lg:grid-cols-2 gap-5">
+          <TipForm
+            farmerName={f.name}
+            farmerSlug={f.slug}
+            tint={f.tint}
+            lang="id"
+          />
+          <PreorderForm
+            farmerName={f.name}
+            farmerSlug={f.slug}
+            pricePerKgUsd={f.batch.pricePerKgUsd}
+            lang="id"
+          />
+        </div>
+      </section>
+
+      {/* CERTS */}
+      <section className="bg-[var(--bg-deep)]">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8 py-10 flex flex-wrap items-center gap-2 justify-center">
+          <Sparkles size={16} className="text-[var(--moss)]" />
+          <span className="text-sm font-bold text-[var(--fg-soft)] mr-2">
+            Diverifikasi:
+          </span>
+          {f.certs.map((c) => (
+            <span key={c} className="chip">
+              ✓ {c}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* BOTTOM CTA */}
+      <section className="paper">
+        <div className="max-w-3xl mx-auto px-5 sm:px-8 py-20 text-center flex flex-col items-center gap-5">
+          <Mic size={32} className="text-[var(--ochre)]" />
+          <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight">
+            {f.name} adalah satu dari {FARMERS.length} petani di Asli.
+          </h2>
+          <p className="text-base text-[var(--fg-soft)] max-w-lg leading-relaxed">
+            Setiap orang punya Digital Product ID. Setiap orang diverifikasi satelit. Setiap orang dibayar transparan. Lihat semuanya.
+          </p>
+          <Link
+            href="/id/farmers"
+            className="inline-flex items-center gap-2 px-6 py-4 rounded-full bg-[var(--fg)] text-[var(--ivory)] font-bold tap chunky-shadow-soft mt-2"
+          >
+            Lihat semua petani
+          </Link>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function KeyStat({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) {
+  return (
+    <div className="bg-[var(--ivory)] rounded-2xl border border-[var(--line)] p-3 flex flex-col gap-1">
+      <div className="text-[var(--muted)]">{icon}</div>
+      <p className="text-lg font-extrabold tabular-nums leading-none">{value}</p>
+      <p className="text-[9px] uppercase tracking-wider text-[var(--muted)] font-bold leading-tight">
+        {label}
+      </p>
+    </div>
+  );
+}
+
+function PriceBarID({
+  tint,
+  farmerPct,
+  commodity,
+}: {
+  tint: "moss" | "ochre" | "clay" | "indigo";
+  farmerPct: number;
+  commodity: string;
+}) {
+  const processingPct = 12;
+  const logisticsPct = 8;
+  const platformPct = 4;
+  const retailerPct = 100 - farmerPct - processingPct - logisticsPct - platformPct;
+
+  const rows = [
+    { label: "Petani", pct: farmerPct, color: `var(--${tint})` },
+    { label: "Koperasi olah", pct: processingPct, color: "var(--ochre)" },
+    { label: "Logistik", pct: logisticsPct, color: "var(--clay)" },
+    { label: "Platform Asli", pct: platformPct, color: "var(--indigo)" },
+    { label: "Margin retail", pct: retailerPct, color: "var(--muted)" },
+  ];
+
+  const commName =
+    commodity === "wild-honey" ? "madu" : commodity === "coffee" ? "kopi" : commodity === "nutmeg" ? "pala" : commodity === "clove" ? "cengkeh" : commodity === "vanilla" ? "vanili" : "kakao";
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex h-9 rounded-full overflow-hidden border border-[var(--line)]">
+        {rows.map((r) => (
+          <div
+            key={r.label}
+            style={{ width: `${r.pct}%`, background: r.color }}
+            className="flex items-center justify-center text-[10px] font-bold text-[var(--ivory)]"
+          >
+            {r.pct >= 10 ? `${r.pct}%` : ""}
+          </div>
+        ))}
+      </div>
+      <ul className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+        {rows.map((r) => (
+          <li key={r.label} className="flex items-center gap-2 text-xs">
+            <span className="w-3 h-3 rounded-sm flex-shrink-0" style={{ background: r.color }} />
+            <div className="min-w-0">
+              <p className="font-bold leading-tight">{r.pct}%</p>
+              <p className="text-[var(--muted)] truncate">{r.label}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p className="text-xs text-[var(--muted)] mt-2 leading-relaxed">
+        Rata-rata bagian petani industri untuk {commName}: sekitar 22–30%. Asli membangun ulang dari nol — harga floor ditentukan petani, margin transparan, tanpa perantara tersembunyi.
+      </p>
+    </div>
+  );
+}
+
+function daysAgoID(iso: string) {
+  const d = new Date(iso);
+  const days = Math.floor((Date.now() - d.getTime()) / 86_400_000);
+  if (days < 1) return "hari ini";
+  if (days < 7) return `${days}h lalu`;
+  if (days < 30) return `${Math.floor(days / 7)}m lalu`;
+  return `${Math.floor(days / 30)}bln lalu`;
+}
+

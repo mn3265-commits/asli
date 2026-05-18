@@ -14,26 +14,53 @@ import {
 } from "lucide-react";
 import { addOnboarded } from "@/lib/store";
 
-const STEPS = [
-  { id: 0, icon: Building, label: "Org" },
-  { id: 1, icon: User, label: "Farmer" },
-  { id: 2, icon: MapPin, label: "Plot" },
-  { id: 3, icon: QrCode, label: "Mint" },
-];
+type Lang = "en" | "id";
 
-const COMMODITIES = [
-  "Coffee",
-  "Cacao",
-  "Nutmeg",
-  "Clove",
-  "Vanilla",
-  "Wild honey",
-  "Black pepper",
-  "Patchouli",
-  "Other",
-];
+const STEP_LABELS = {
+  en: ["Org", "Farmer", "Plot", "Mint"],
+  id: ["Org", "Petani", "Lahan", "Cetak"],
+};
 
-export function OnboardWizard() {
+const COMMODITIES = {
+  en: ["Coffee", "Cacao", "Nutmeg", "Clove", "Vanilla", "Wild honey", "Black pepper", "Patchouli", "Other"],
+  id: ["Kopi", "Kakao", "Pala", "Cengkeh", "Vanili", "Madu hutan", "Lada hitam", "Nilam", "Lainnya"],
+};
+
+const T = {
+  en: {
+    welcome: (org: string) => `Welcome to Asli, ${org || "the network"}.`,
+    welcomeBody: (farmer: string, dpid: string) => <>{farmer || "Your first farmer"} is onboarded. DPID <code className="font-mono font-bold">{dpid}</code> is minted. Your QR codes are generating. We&apos;ll email you a kit within 5 minutes.</>,
+    firstDPID: "Your first DPID",
+    seeInList: "See in farmers list →",
+    onboardAnother: "Onboard another",
+    step0: { title: "Tell us about your organization", sub: "Coop, exporter, or brand — we onboard all.", orgName: "Organization name", orgPh: "e.g. Koperasi Gayo Sejahtera", kind: "Kind", coop: "Coop", exp: "Exporter", brand: "Brand" },
+    step1: { title: "Add your first farmer", sub: "You can bulk-import the rest via CSV or WhatsApp later.", farmer: "Farmer name", farmerPh: "e.g. Pak Joko Susanto", village: "Village / Kampung", villagePh: "e.g. Pondok Bambu", commodity: "Primary commodity" },
+    step2: { title: "Pin the plot", sub: "Sentinel-2 needs coordinates to fetch satellite imagery. We can also grab from a Google Maps link or geotagged photo.", lat: "Latitude", lng: "Longitude", hectares: "Plot size (hectares)", hint: "On submit, we'll pull baseline forest cover from Sentinel-2 (2018) and the latest imagery — generating an EUDR-compliant due-diligence statement automatically." },
+    step3: { title: "Mint the first DPID", sub: "Review and confirm. We'll generate the QR codes after.", rowOrg: "Organization", rowKind: "Kind", rowFarmer: "Farmer", rowVillage: "Village", rowCommodity: "Commodity", rowPlot: "Plot", rowCoords: "Coordinates", rowDpid: "Generated DPID", hint: "The first DPID is on us. After that, $0.04 per mint — no subscription, no minimum. Buyer-facing pages are always free." },
+    back: "Back", continue: "Continue", mint: "Mint DPID",
+  },
+  id: {
+    welcome: (org: string) => `Selamat datang di Asli, ${org || "jaringan"}.`,
+    welcomeBody: (farmer: string, dpid: string) => <>{farmer || "Petani pertamamu"} sudah ter-onboard. DPID <code className="font-mono font-bold">{dpid}</code> sudah dicetak. Kode QR-mu sedang di-generate. Kami kirim kit ke email dalam 5 menit.</>,
+    firstDPID: "DPID pertamamu",
+    seeInList: "Lihat di daftar petani →",
+    onboardAnother: "Onboard lagi",
+    step0: { title: "Ceritakan tentang organisasimu", sub: "Koperasi, eksportir, atau brand — semua kami onboard.", orgName: "Nama organisasi", orgPh: "cth. Koperasi Gayo Sejahtera", kind: "Jenis", coop: "Koperasi", exp: "Eksportir", brand: "Brand" },
+    step1: { title: "Tambah petani pertama", sub: "Yang lain bisa di-import via CSV atau WhatsApp nanti.", farmer: "Nama petani", farmerPh: "cth. Pak Joko Susanto", village: "Desa / Kampung", villagePh: "cth. Pondok Bambu", commodity: "Komoditas utama" },
+    step2: { title: "Pin lahan", sub: "Sentinel-2 butuh koordinat untuk tarik citra satelit. Bisa juga dari link Google Maps atau foto geotagged.", lat: "Lintang", lng: "Bujur", hectares: "Luas lahan (hektar)", hint: "Saat submit, kami tarik baseline tutupan hutan dari Sentinel-2 (2018) dan citra terbaru — pernyataan due-diligence EUDR di-generate otomatis." },
+    step3: { title: "Cetak DPID pertama", sub: "Review dan konfirmasi. Kami generate kode QR setelahnya.", rowOrg: "Organisasi", rowKind: "Jenis", rowFarmer: "Petani", rowVillage: "Desa", rowCommodity: "Komoditas", rowPlot: "Lahan", rowCoords: "Koordinat", rowDpid: "DPID di-generate", hint: "DPID pertama gratis. Setelah itu $0.04 per mint — tidak ada langganan, tidak ada minimum. Halaman pembeli selalu gratis." },
+    back: "Kembali", continue: "Lanjut", mint: "Cetak DPID",
+  },
+};
+
+export function OnboardWizard({ lang = "en" }: { lang?: Lang } = {}) {
+  const t = T[lang];
+  const STEPS = STEP_LABELS[lang].map((label, i) => ({
+    id: i,
+    icon: [Building, User, MapPin, QrCode][i],
+    label,
+  }));
+  const commodityList = COMMODITIES[lang];
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
 
@@ -41,7 +68,7 @@ export function OnboardWizard() {
   const [orgKind, setOrgKind] = useState("coop");
   const [farmerName, setFarmerName] = useState("");
   const [village, setVillage] = useState("");
-  const [commodity, setCommodity] = useState("Coffee");
+  const [commodity, setCommodity] = useState(commodityList[0]);
   const [hectares, setHectares] = useState("");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
@@ -56,17 +83,14 @@ export function OnboardWizard() {
       <div className="bg-[var(--moss-soft)] border-2 border-[var(--moss)] rounded-3xl p-8 sm:p-12 flex flex-col items-center text-center gap-5 chunky-shadow-soft">
         <CheckCircle2 size={64} className="text-[var(--moss)]" />
         <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight">
-          Welcome to Asli, {orgName || "the network"}.
+          {t.welcome(orgName)}
         </h2>
         <p className="text-base text-[var(--fg-soft)] max-w-md leading-relaxed">
-          {farmerName || "Your first farmer"} is onboarded.
-          DPID <code className="font-mono font-bold">{dpid}</code> is minted.
-          Your QR codes are generating. We&apos;ll email you a kit within 5
-          minutes.
+          {t.welcomeBody(farmerName, dpid)}
         </p>
         <div className="bg-[var(--ivory)] rounded-2xl border border-[var(--moss)] p-5 w-full max-w-sm mt-2">
           <p className="text-xs uppercase tracking-widest font-bold text-[var(--muted)] mb-2">
-            Your first DPID
+            {t.firstDPID}
           </p>
           <p className="font-mono text-lg font-extrabold text-[var(--moss)]">
             {dpid}
@@ -74,10 +98,10 @@ export function OnboardWizard() {
         </div>
         <div className="flex flex-wrap gap-2 justify-center mt-2">
           <Link
-            href="/farmers"
+            href={lang === "id" ? "/id/farmers" : "/farmers"}
             className="px-5 py-3 rounded-full bg-[var(--moss)] text-[var(--ivory)] font-bold tap"
           >
-            See in farmers list →
+            {t.seeInList}
           </Link>
           <button
             onClick={() => {
@@ -86,7 +110,7 @@ export function OnboardWizard() {
             }}
             className="px-5 py-3 rounded-full bg-[var(--ivory)] border border-[var(--line)] text-[var(--fg)] font-bold tap"
           >
-            Onboard another
+            {t.onboardAnother}
           </button>
         </div>
       </div>
@@ -147,28 +171,24 @@ export function OnboardWizard() {
         {step === 0 && (
           <div className="flex flex-col gap-5">
             <div>
-              <h2 className="text-2xl font-extrabold mb-1">
-                Tell us about your organization
-              </h2>
-              <p className="text-sm text-[var(--muted)]">
-                Coop, exporter, or brand — we onboard all.
-              </p>
+              <h2 className="text-2xl font-extrabold mb-1">{t.step0.title}</h2>
+              <p className="text-sm text-[var(--muted)]">{t.step0.sub}</p>
             </div>
-            <Field label="Organization name">
+            <Field label={t.step0.orgName}>
               <input
                 value={orgName}
                 onChange={(e) => setOrgName(e.target.value)}
-                placeholder="e.g. Koperasi Gayo Sejahtera"
+                placeholder={t.step0.orgPh}
                 className="input"
                 autoFocus
               />
             </Field>
-            <Field label="Kind">
+            <Field label={t.step0.kind}>
               <div className="grid grid-cols-3 gap-2">
                 {[
-                  { id: "coop", label: "Coop" },
-                  { id: "exporter", label: "Exporter" },
-                  { id: "brand", label: "Brand" },
+                  { id: "coop", label: t.step0.coop },
+                  { id: "exporter", label: t.step0.exp },
+                  { id: "brand", label: t.step0.brand },
                 ].map((k) => (
                   <button
                     key={k.id}
@@ -190,37 +210,33 @@ export function OnboardWizard() {
         {step === 1 && (
           <div className="flex flex-col gap-5">
             <div>
-              <h2 className="text-2xl font-extrabold mb-1">
-                Add your first farmer
-              </h2>
-              <p className="text-sm text-[var(--muted)]">
-                You can bulk-import the rest via CSV or WhatsApp later.
-              </p>
+              <h2 className="text-2xl font-extrabold mb-1">{t.step1.title}</h2>
+              <p className="text-sm text-[var(--muted)]">{t.step1.sub}</p>
             </div>
-            <Field label="Farmer name">
+            <Field label={t.step1.farmer}>
               <input
                 value={farmerName}
                 onChange={(e) => setFarmerName(e.target.value)}
-                placeholder="e.g. Pak Joko Susanto"
+                placeholder={t.step1.farmerPh}
                 className="input"
                 autoFocus
               />
             </Field>
-            <Field label="Village / Kampung">
+            <Field label={t.step1.village}>
               <input
                 value={village}
                 onChange={(e) => setVillage(e.target.value)}
-                placeholder="e.g. Pondok Bambu"
+                placeholder={t.step1.villagePh}
                 className="input"
               />
             </Field>
-            <Field label="Primary commodity">
+            <Field label={t.step1.commodity}>
               <select
                 value={commodity}
                 onChange={(e) => setCommodity(e.target.value)}
                 className="input"
               >
-                {COMMODITIES.map((c) => (
+                {commodityList.map((c) => (
                   <option key={c}>{c}</option>
                 ))}
               </select>
@@ -231,16 +247,11 @@ export function OnboardWizard() {
         {step === 2 && (
           <div className="flex flex-col gap-5">
             <div>
-              <h2 className="text-2xl font-extrabold mb-1">
-                Pin the plot
-              </h2>
-              <p className="text-sm text-[var(--muted)]">
-                Sentinel-2 needs coordinates to fetch satellite imagery. We can
-                also grab from a Google Maps link or geotagged photo.
-              </p>
+              <h2 className="text-2xl font-extrabold mb-1">{t.step2.title}</h2>
+              <p className="text-sm text-[var(--muted)]">{t.step2.sub}</p>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Latitude">
+              <Field label={t.step2.lat}>
                 <input
                   type="number"
                   step="0.0001"
@@ -250,7 +261,7 @@ export function OnboardWizard() {
                   className="input"
                 />
               </Field>
-              <Field label="Longitude">
+              <Field label={t.step2.lng}>
                 <input
                   type="number"
                   step="0.0001"
@@ -261,7 +272,7 @@ export function OnboardWizard() {
                 />
               </Field>
             </div>
-            <Field label="Plot size (hectares)">
+            <Field label={t.step2.hectares}>
               <input
                 type="number"
                 step="0.1"
@@ -272,15 +283,8 @@ export function OnboardWizard() {
               />
             </Field>
             <div className="bg-[var(--moss-soft)] rounded-2xl p-4 flex gap-3 items-start">
-              <Sparkles
-                size={16}
-                className="text-[var(--moss)] flex-shrink-0 mt-0.5"
-              />
-              <p className="text-xs text-[var(--fg-soft)] leading-relaxed">
-                On submit, we&apos;ll pull baseline forest cover from
-                Sentinel-2 (2018) and the latest imagery — generating an
-                EUDR-compliant due-diligence statement automatically.
-              </p>
+              <Sparkles size={16} className="text-[var(--moss)] flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-[var(--fg-soft)] leading-relaxed">{t.step2.hint}</p>
             </div>
           </div>
         )}
@@ -288,32 +292,22 @@ export function OnboardWizard() {
         {step === 3 && (
           <div className="flex flex-col gap-5">
             <div>
-              <h2 className="text-2xl font-extrabold mb-1">
-                Mint the first DPID
-              </h2>
-              <p className="text-sm text-[var(--muted)]">
-                Review and confirm. We&apos;ll generate the QR codes after.
-              </p>
+              <h2 className="text-2xl font-extrabold mb-1">{t.step3.title}</h2>
+              <p className="text-sm text-[var(--muted)]">{t.step3.sub}</p>
             </div>
             <div className="bg-[var(--bg-deep)] rounded-2xl p-5 flex flex-col gap-2 text-sm">
-              <Row k="Organization" v={orgName || "—"} />
-              <Row k="Kind" v={orgKind} />
-              <Row k="Farmer" v={farmerName || "—"} />
-              <Row k="Village" v={village || "—"} />
-              <Row k="Commodity" v={commodity} />
-              <Row k="Plot" v={`${hectares || "?"} ha`} />
-              {lat && lng && <Row k="Coordinates" v={`${lat}, ${lng}`} />}
-              <Row k="Generated DPID" v={dpid} mono />
+              <Row k={t.step3.rowOrg} v={orgName || "—"} />
+              <Row k={t.step3.rowKind} v={orgKind} />
+              <Row k={t.step3.rowFarmer} v={farmerName || "—"} />
+              <Row k={t.step3.rowVillage} v={village || "—"} />
+              <Row k={t.step3.rowCommodity} v={commodity} />
+              <Row k={t.step3.rowPlot} v={`${hectares || "?"} ha`} />
+              {lat && lng && <Row k={t.step3.rowCoords} v={`${lat}, ${lng}`} />}
+              <Row k={t.step3.rowDpid} v={dpid} mono />
             </div>
             <div className="bg-[var(--ochre-soft)] rounded-2xl p-4 flex gap-3 items-start">
-              <Sparkles
-                size={16}
-                className="text-[var(--ochre)] flex-shrink-0 mt-0.5"
-              />
-              <p className="text-xs text-[var(--fg-soft)] leading-relaxed">
-                The first DPID is on us. After that, $0.04 per mint — no
-                subscription, no minimum. Buyer-facing pages are always free.
-              </p>
+              <Sparkles size={16} className="text-[var(--ochre)] flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-[var(--fg-soft)] leading-relaxed">{t.step3.hint}</p>
             </div>
           </div>
         )}
@@ -326,7 +320,7 @@ export function OnboardWizard() {
           disabled={step === 0}
           className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-[var(--muted)] disabled:opacity-30 tap"
         >
-          <ArrowLeft size={16} /> Back
+          <ArrowLeft size={16} /> {t.back}
         </button>
         {step < 3 ? (
           <button
@@ -334,7 +328,7 @@ export function OnboardWizard() {
             disabled={!canNext}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--moss)] text-[var(--ivory)] font-bold tap disabled:opacity-40"
           >
-            Continue <ArrowRight size={16} />
+            {t.continue} <ArrowRight size={16} />
           </button>
         ) : (
           <button
@@ -360,7 +354,7 @@ export function OnboardWizard() {
             }}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--ochre)] text-[var(--fg)] font-bold tap"
           >
-            Mint DPID <Sparkles size={16} />
+            {t.mint} <Sparkles size={16} />
           </button>
         )}
       </div>
