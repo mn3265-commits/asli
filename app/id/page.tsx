@@ -394,20 +394,29 @@ export default function HomePageID() {
             · Komoditas Indonesia, dengan nama. © 2026
           </div>
           <div className="flex flex-wrap gap-4">
-            <Link href="/spec" className="hover:text-[var(--ochre)]">
+            <Link href="/id/spec" className="hover:text-[var(--ochre)]">
               Spec DPID terbuka
             </Link>
-            <Link href="/strategy" className="hover:text-[var(--ochre)]">
+            <Link href="/id/strategy" className="hover:text-[var(--ochre)]">
               Studi strategis
             </Link>
-            <Link href="/onboard" className="hover:text-[var(--ochre)]">
+            <Link href="/id/onboard" className="hover:text-[var(--ochre)]">
               Untuk eksportir
             </Link>
-            <Link href="/dashboard" className="hover:text-[var(--ochre)]">
+            <Link href="/id/dashboard" className="hover:text-[var(--ochre)]">
               Dasbor pembeli
             </Link>
-            <Link href="/impact" className="hover:text-[var(--ochre)]">
+            <Link href="/id/impact" className="hover:text-[var(--ochre)]">
               Dampak
+            </Link>
+            <Link href="/id/faq" className="hover:text-[var(--ochre)]">
+              FAQ
+            </Link>
+            <Link href="/id/roadmap" className="hover:text-[var(--ochre)]">
+              Roadmap
+            </Link>
+            <Link href="/id/sources" className="hover:text-[var(--ochre)]">
+              Sumber
             </Link>
           </div>
         </div>

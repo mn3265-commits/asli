@@ -408,6 +408,15 @@ export default function HomePage() {
             <Link href="/impact" className="hover:text-[var(--ochre)]">
               Impact
             </Link>
+            <Link href="/faq" className="hover:text-[var(--ochre)]">
+              FAQ
+            </Link>
+            <Link href="/roadmap" className="hover:text-[var(--ochre)]">
+              Roadmap
+            </Link>
+            <Link href="/sources" className="hover:text-[var(--ochre)]">
+              Sources
+            </Link>
           </div>
         </div>
       </footer>
