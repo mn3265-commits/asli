@@ -117,7 +117,7 @@ ANTHROPIC_API_KEY=sk-ant-... pnpm dev
 
 ## License
 
-The Asli platform code is proprietary (for now). The DPID specification itself will be MIT-licensed when it ships in `/spec` v1.0.
+[MIT](./LICENSE) — both the platform source and the DPID specification. Fork it, study it, build on it.
 
 ---
 
