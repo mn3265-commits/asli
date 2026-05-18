@@ -136,7 +136,7 @@ export function TopNav() {
 
           {/* Inline nav — md and up. Below md uses the hamburger overlay so
               both surfaces show the same 5 primary + 3 "more" items. */}
-          <div className="hidden md:flex items-center gap-0.5 lg:gap-1 text-sm font-semibold">
+          <div className="hidden lg:flex items-center gap-0.5 lg:gap-1 text-sm font-semibold">
             {primaryItems.map((it) => (
               <Link
                 key={it.href}
@@ -201,7 +201,7 @@ export function TopNav() {
           </div>
 
           {/* Mobile cluster — below md */}
-          <div className="flex md:hidden items-center gap-2">
+          <div className="flex lg:hidden items-center gap-2">
             <Link
               href={counterpart}
               className="px-2.5 py-1 rounded-full bg-[var(--bg-deep)] text-[var(--fg-soft)] text-xs font-bold tap border border-[var(--line)]"
@@ -225,7 +225,7 @@ export function TopNav() {
 
       {/* Mobile overlay — same primary + more grouping as desktop */}
       {open && (
-        <div className="fixed inset-0 z-50 md:hidden bg-[var(--bg)] flex flex-col animate-[fade-up_0.2s_ease-out]">
+        <div className="fixed inset-0 z-50 lg:hidden bg-[var(--bg)] flex flex-col animate-[fade-up_0.2s_ease-out]">
           <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--line)]">
             <Link
               href={isID ? "/id" : "/"}
