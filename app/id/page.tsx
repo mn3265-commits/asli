@@ -3,6 +3,7 @@ import { ArrowRight, MapPin, Mic, Sprout, ScanLine } from "lucide-react";
 import { FARMERS, formatIDR, portraitUrl } from "@/lib/data";
 import { Reveal } from "@/components/reveal";
 import { CountUp } from "@/components/count-up";
+import { PulauRunStory } from "@/components/pulau-run-story";
 
 export const metadata = {
   title: "Asli — Komoditas Indonesia, dengan nama",
@@ -197,6 +198,9 @@ export default function HomePageID() {
         </div>
       </section>
 
+      {/* ── PULAU RUN STORY ───────────────────────────────────────── */}
+      <PulauRunStory lang="id" />
+
       {/* ── THE TECH (4-layer stack) ──────────────────────────────── */}
       <section className="bg-[var(--bg-deep)]">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
@@ -219,8 +223,8 @@ export default function HomePageID() {
                 icon={<MapPin size={20} />}
                 num="01"
                 title="Asal-usul diverifikasi satelit"
-                body="Setiap lahan petani digeofence dan diambil baru dari Sentinel-2 setiap 5 hari. Pembeli melihat kebun aslinya dari satelit — plus bukti tidak ada deforestasi. Kepatuhan EUDR sejak hari pertama."
-                chip="ESA Copernicus · gratis"
+                body="Setiap lahan petani digeofence dan diambil baru dari Sentinel-2 setiap 5 hari. Pembeli melihat kebun aslinya dari satelit — plus bukti tidak ada deforestasi. Otomatis generate dokumen EUDR (Uni Eropa) dan FDA FSMA 204 (Amerika Serikat) dari data yang sama."
+                chip="EUDR + FDA FSMA-204 siap"
               />
             </Reveal>
             <Reveal delay={120}>

@@ -3,6 +3,7 @@ import { ArrowRight, MapPin, Mic, Sprout, ScanLine } from "lucide-react";
 import { FARMERS, formatIDR, portraitUrl } from "@/lib/data";
 import { Reveal } from "@/components/reveal";
 import { CountUp } from "@/components/count-up";
+import { PulauRunStory } from "@/components/pulau-run-story";
 
 export default function HomePage() {
   const farmers = FARMERS.length;
@@ -197,6 +198,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── PULAU RUN STORY ───────────────────────────────────────── */}
+      <PulauRunStory lang="en" />
+
       {/* ── THE TECH (4-layer stack) ──────────────────────────────── */}
       <section className="bg-[var(--bg-deep)]">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
@@ -218,8 +222,8 @@ export default function HomePage() {
                 icon={<MapPin size={20} />}
                 num="01"
                 title="Satellite-verified origin"
-                body="Each farmer's plot is geofenced and pulled fresh from Sentinel-2 every 5 days. Buyers see the actual farm from space — and proof of no deforestation. Built-in EUDR compliance from day one."
-                chip="ESA Copernicus · free"
+                body="Each farmer's plot is geofenced and pulled fresh from Sentinel-2 every 5 days. Buyers see the actual farm from space — and proof of no deforestation. Auto-generates the paperwork for EU's EUDR and US FDA FSMA 204 traceability from the same data."
+                chip="EUDR + FDA FSMA-204 ready"
               />
             </Reveal>
             <Reveal delay={120}>
