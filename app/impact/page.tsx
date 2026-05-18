@@ -1,4 +1,6 @@
 import { FARMERS, formatIDR } from "@/lib/data";
+import { CountUp } from "@/components/count-up";
+import { Reveal } from "@/components/reveal";
 
 export const metadata = {
   title: "Impact dashboard — Asli",
@@ -196,24 +198,23 @@ export default function ImpactPage() {
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {SDGS.map((s) => (
-              <div
-                key={s.num}
-                className="rounded-3xl border border-[var(--line)] p-6 flex flex-col gap-4 bg-[var(--ivory)]"
-              >
-                <div
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl font-extrabold text-white"
-                  style={{ background: s.bg }}
-                >
-                  {s.num}
+            {SDGS.map((s, i) => (
+              <Reveal key={s.num} delay={i * 80}>
+                <div className="rounded-3xl border border-[var(--line)] p-6 flex flex-col gap-4 bg-[var(--ivory)] lift">
+                  <div
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl font-extrabold text-white"
+                    style={{ background: s.bg }}
+                  >
+                    {s.num}
+                  </div>
+                  <h3 className="text-lg font-extrabold leading-tight">
+                    SDG {s.num}: {s.title}
+                  </h3>
+                  <p className="text-sm text-[var(--fg-soft)] leading-relaxed">
+                    {s.body}
+                  </p>
                 </div>
-                <h3 className="text-lg font-extrabold leading-tight">
-                  SDG {s.num}: {s.title}
-                </h3>
-                <p className="text-sm text-[var(--fg-soft)] leading-relaxed">
-                  {s.body}
-                </p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -253,16 +254,16 @@ function BigStat({
 }) {
   return (
     <div
-      className="rounded-3xl p-5 sm:p-6 flex flex-col gap-2"
+      className="rounded-3xl p-5 sm:p-6 flex flex-col gap-2 lift"
       style={{ background: `var(--${tint}-soft)` }}
     >
-      <p
+      <CountUp
+        value={value}
         className="text-3xl sm:text-4xl font-extrabold tabular-nums leading-none tracking-tight"
-        style={{ color: `var(--${tint})` }}
-      >
-        {value}
+      />
+      <p className="text-sm font-bold mt-1" style={{ color: `var(--${tint})` }}>
+        {label}
       </p>
-      <p className="text-sm font-bold mt-1">{label}</p>
       <p className="text-xs text-[var(--fg-soft)] opacity-70">{sub}</p>
     </div>
   );

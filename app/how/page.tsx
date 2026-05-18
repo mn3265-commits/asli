@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Sprout, MapPin, Mic, Coins, Heart, ScanLine } from "lucide-react";
+import { Reveal } from "@/components/reveal";
 
 export const metadata = {
   title: "How Asli works — for farmers, exporters, buyers",
@@ -28,45 +29,51 @@ export default function HowPage() {
       <section className="bg-[var(--bg-deep)]">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
           <div className="grid lg:grid-cols-3 gap-6">
-            <PartyCard
-              icon={<Sprout size={22} />}
-              tint="moss"
-              title="For farmers"
-              tagline="Your name. Your face. Your earnings."
-              points={[
-                "Onboard once. Pin your plot on a map.",
-                "Record a 30-second voice memo in your dialect.",
-                "Every kilo sold pings your bank. You see it live.",
-                "Buyers can tip you directly — 100% passes through.",
-                "Pre-order income lets you skip the loan shark.",
-              ]}
-            />
-            <PartyCard
-              icon={<Coins size={22} />}
-              tint="ochre"
-              title="For exporters & coops"
-              tagline="Mint DPIDs. Sell for more. Pay farmers more."
-              points={[
-                "Onboard farmers in <5 minutes via WhatsApp.",
-                "Mint a DPID per batch via our open API.",
-                "QR codes print straight onto packaging.",
-                "EUDR compliance baked in (satellite verified).",
-                "Premium pricing — buyers pay more for proof.",
-              ]}
-            />
-            <PartyCard
-              icon={<ScanLine size={22} />}
-              tint="indigo"
-              title="For buyers"
-              tagline="Scan. See. Send. Sleep well."
-              points={[
-                "Scan the QR on any Asli pack with your phone.",
-                "See the farmer&apos;s face, hear their voice in your language.",
-                "See the farm from space — proof of no deforestation.",
-                "Tip directly. Pre-order next harvest.",
-                "Retire carbon credits at checkout.",
-              ]}
-            />
+            <Reveal delay={0}>
+              <PartyCard
+                icon={<Sprout size={22} />}
+                tint="moss"
+                title="For farmers"
+                tagline="Your name. Your face. Your earnings."
+                points={[
+                  "Onboard once. Pin your plot on a map.",
+                  "Record a 30-second voice memo in your dialect.",
+                  "Every kilo sold pings your bank. You see it live.",
+                  "Buyers can tip you directly — 100% passes through.",
+                  "Pre-order income lets you skip the loan shark.",
+                ]}
+              />
+            </Reveal>
+            <Reveal delay={120}>
+              <PartyCard
+                icon={<Coins size={22} />}
+                tint="ochre"
+                title="For exporters & coops"
+                tagline="Mint DPIDs. Sell for more. Pay farmers more."
+                points={[
+                  "Onboard farmers in <5 minutes via WhatsApp.",
+                  "Mint a DPID per batch via our open API.",
+                  "QR codes print straight onto packaging.",
+                  "EUDR compliance baked in (satellite verified).",
+                  "Premium pricing — buyers pay more for proof.",
+                ]}
+              />
+            </Reveal>
+            <Reveal delay={240}>
+              <PartyCard
+                icon={<ScanLine size={22} />}
+                tint="indigo"
+                title="For buyers"
+                tagline="Scan. See. Send. Sleep well."
+                points={[
+                  "Scan the QR on any Asli pack with your phone.",
+                  "See the farmer's face, hear their voice in your language.",
+                  "See the farm from space — proof of no deforestation.",
+                  "Tip directly. Pre-order next harvest.",
+                  "Retire carbon credits at checkout.",
+                ]}
+              />
+            </Reveal>
           </div>
         </div>
       </section>

@@ -2,7 +2,7 @@
 
 ### How a digital trust layer can unlock premium markets for the world's most invisible farmers
 
-*A strategic memo, in the style of Harvard Business Review*
+*A strategic case study*
 *Mei 2026*
 
 ---
@@ -158,7 +158,7 @@ These targets are deliberately calibrated to be defensible at a *Greater Good Ch
 
 ## VIII. Why this matters beyond economics
 
-We will conclude with a paragraph not normally found in an HBR memo, because the work is not normally found in an HBR memo.
+We will conclude with a paragraph not normally found in a strategic memo, because the work is not normally found in a strategic memo.
 
 Indonesia's smallholder commodity farmers grow products consumed by hundreds of millions of people every day. Most consumers in Berlin and Brooklyn and Tokyo will never meet any of them. The default state of this relationship is profound asymmetry: the farmer is essential, exhausted, and invisible; the buyer is privileged, distracted, and ignorant of the role they play in the farmer's life.
 

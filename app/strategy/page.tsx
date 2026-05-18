@@ -12,9 +12,9 @@ import {
 } from "@/components/memo-graphics";
 
 export const metadata = {
-  title: "Strategic memo — Asli",
+  title: "Case study — Asli",
   description:
-    "Asli: selling Indonesia's commodities by name. A strategic memo, in the style of Harvard Business Review.",
+    "Asli: selling Indonesia's commodities by name. A strategic case study.",
 };
 
 // Section graphics — keyed to slugified H2 headings as they appear in the markdown.
@@ -51,7 +51,7 @@ export default async function StrategyPage() {
           </Link>
           <div className="flex items-center gap-2">
             <span className="text-[10px] uppercase tracking-widest font-bold opacity-70 hidden sm:inline">
-              Strategic memo · w/ figures
+              Case study · with figures
             </span>
             <PrintButton />
           </div>

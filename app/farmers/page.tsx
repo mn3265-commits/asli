@@ -65,7 +65,7 @@ export default function FarmersPage() {
             <Link
               key={f.slug}
               href={`/farmers/${f.slug}`}
-              className="group bg-[var(--ivory)] rounded-3xl border border-[var(--line)] p-5 tap flex flex-col gap-4 fade-up"
+              className="group bg-[var(--ivory)] rounded-3xl border border-[var(--line)] p-5 tap lift flex flex-col gap-4 fade-up"
               style={{ animationDelay: `${60 + i * 50}ms` }}
             >
               {/* Commodity art header with portrait */}

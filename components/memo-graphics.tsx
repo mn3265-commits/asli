@@ -1,5 +1,5 @@
 /**
- * HBR-style infographics for the strategic memo (/strategy).
+ * Editorial-style infographics for the strategic memo (/strategy).
  * Pure SVG, print-safe, no external deps.
  */
 

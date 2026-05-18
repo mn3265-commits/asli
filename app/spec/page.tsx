@@ -1,4 +1,5 @@
 import { Code, Terminal, FileCode, Workflow } from "lucide-react";
+import { Reveal } from "@/components/reveal";
 
 export const metadata = {
   title: "Open DPID Spec — Asli",
@@ -101,30 +102,38 @@ export default function SpecPage() {
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-20">
           <h2 className="text-3xl font-extrabold mb-8">Four principles</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Principle
-              tint="moss"
-              num="01"
-              title="Farmer-first"
-              body="Every DPID names the person, not the corporation. The farmer field is required."
-            />
-            <Principle
-              tint="ochre"
-              num="02"
-              title="Verifiable"
-              body="Satellite-anchored origin. Public ledger of mints. Anyone can audit."
-            />
-            <Principle
-              tint="clay"
-              num="03"
-              title="Carbon-aware"
-              body="Every batch carries a CO₂ balance. Net-negative practices visible by default."
-            />
-            <Principle
-              tint="indigo"
-              num="04"
-              title="Open"
-              body="MIT-licensed schema. No vendor lock-in. Build your own resolver if you want."
-            />
+            <Reveal delay={0}>
+              <Principle
+                tint="moss"
+                num="01"
+                title="Farmer-first"
+                body="Every DPID names the person, not the corporation. The farmer field is required."
+              />
+            </Reveal>
+            <Reveal delay={120}>
+              <Principle
+                tint="ochre"
+                num="02"
+                title="Verifiable"
+                body="Satellite-anchored origin. Public ledger of mints. Anyone can audit."
+              />
+            </Reveal>
+            <Reveal delay={240}>
+              <Principle
+                tint="clay"
+                num="03"
+                title="Carbon-aware"
+                body="Every batch carries a CO₂ balance. Net-negative practices visible by default."
+              />
+            </Reveal>
+            <Reveal delay={360}>
+              <Principle
+                tint="indigo"
+                num="04"
+                title="Open"
+                body="MIT-licensed schema. No vendor lock-in. Build your own resolver if you want."
+              />
+            </Reveal>
           </div>
         </div>
       </section>
