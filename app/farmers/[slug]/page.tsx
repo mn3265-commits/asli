@@ -50,19 +50,19 @@ export default async function FarmerDPIDPage({ params }: PageProps) {
     <>
       <ViewTracker slug={f.slug} />
 
-      {/* Hero commodity art strip */}
-      <div className="relative">
+      {/* Hero commodity art strip — slim banner */}
+      <div className="relative h-32 sm:h-48 overflow-hidden">
         <CommodityArt
           commodity={f.commodity}
           seed={f.slug}
           variant="hero"
-          className="w-full"
+          className="w-full h-full"
         />
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[var(--bg)] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[var(--bg)] to-transparent" />
       </div>
 
       {/* Back nav */}
-      <div className="max-w-5xl mx-auto px-5 sm:px-8 pt-4 -mt-12 relative">
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 pt-4 -mt-8 relative">
         <Link
           href="/farmers"
           className="inline-flex items-center gap-2 text-sm font-bold text-[var(--ivory)] bg-[var(--fg)]/80 backdrop-blur-md px-3 py-2 rounded-full hover:bg-[var(--fg)] tap"

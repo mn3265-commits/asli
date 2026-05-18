@@ -84,7 +84,14 @@ export function CommodityArt({
   });
 
   const isHero = variant === "hero";
-  const aspectClass = isHero ? "aspect-[16/9]" : "aspect-[5/3]";
+  // Skip aspect class if parent explicitly sets height
+  const hasExplicitHeight =
+    /\bh-\[|\bh-\d|\bh-full|\bh-screen/.test(className);
+  const aspectClass = hasExplicitHeight
+    ? ""
+    : isHero
+      ? "aspect-[32/9]"
+      : "aspect-[5/3]";
 
   return (
     <div className={`relative overflow-hidden ${aspectClass} ${className}`}>
