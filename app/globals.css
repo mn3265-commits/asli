@@ -1,26 +1,127 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Asli — warm Indonesian earth palette */
+  --bg: #faf5e8;           /* cream paper */
+  --bg-deep: #f0e8d4;      /* slightly toasted */
+  --fg: #1f1810;           /* warm near-black */
+  --fg-soft: #3d2f20;      /* slightly softer */
+  --muted: #8a7858;        /* warm muted */
+  --line: #e3d6b9;         /* hairline */
+
+  /* Brand colors */
+  --moss: #2f5d3a;         /* deep rainforest green (primary) */
+  --moss-soft: #d4e3cb;    /* moss tint */
+  --ochre: #d4831a;        /* warm Indonesian earth (accent) */
+  --ochre-soft: #f7e3c4;   /* ochre tint */
+  --clay: #b84a2f;         /* terracotta */
+  --clay-soft: #f5d6cc;    /* clay tint */
+  --indigo: #2c3e6f;       /* Indonesian textile indigo */
+  --indigo-soft: #cdd6e6;  /* indigo tint */
+  --ivory: #fff8e8;        /* card background */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-bg-deep: var(--bg-deep);
+  --color-fg: var(--fg);
+  --color-fg-soft: var(--fg-soft);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-moss: var(--moss);
+  --color-moss-soft: var(--moss-soft);
+  --color-ochre: var(--ochre);
+  --color-ochre-soft: var(--ochre-soft);
+  --color-clay: var(--clay);
+  --color-clay-soft: var(--clay-soft);
+  --color-indigo: var(--indigo);
+  --color-indigo-soft: var(--indigo-soft);
+  --color-ivory: var(--ivory);
+  --font-sans: var(--font-jakarta);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    var(--font-jakarta), var(--font-geist-sans), system-ui, sans-serif;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+}
+
+p { line-height: 1.6; }
+
+/* Tap response */
+.tap {
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.15s ease;
+}
+.tap:active {
+  transform: scale(0.97);
+}
+
+/* Chunky offset shadow on hero cards */
+.chunky-shadow {
+  box-shadow: 6px 6px 0 0 var(--fg);
+}
+.chunky-shadow-soft {
+  box-shadow: 4px 4px 0 0 var(--fg);
+}
+
+/* Subtle paper grain */
+.paper {
+  background-color: var(--bg);
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(31, 24, 16, 0.04) 1px,
+    transparent 0
+  );
+  background-size: 20px 20px;
+}
+
+/* Tag chip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--line);
+  background: var(--ivory);
+  color: var(--fg-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tap { transition: none; }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
