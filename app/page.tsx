@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, MapPin, Mic, Sprout, ScanLine } from "lucide-react";
-import { FARMERS, formatIDR } from "@/lib/data";
+import { FARMERS, formatIDR, portraitUrl } from "@/lib/data";
+import { Reveal } from "@/components/reveal";
+import { CountUp } from "@/components/count-up";
 
 export default function HomePage() {
   const farmers = FARMERS.length;
@@ -13,8 +15,25 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────── */}
-      <section className="paper relative">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 pt-12 pb-20 sm:pt-20 sm:pb-32 grid lg:grid-cols-12 gap-10 items-center">
+      <section className="paper relative overflow-hidden">
+        {/* Drifting blob backgrounds */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-32 -left-16 w-96 h-96 rounded-full opacity-30 drift-blob"
+          style={{ background: "var(--ochre)", filter: "blur(80px)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-16 right-0 w-[28rem] h-[28rem] rounded-full opacity-25 drift-blob"
+          style={{ background: "var(--moss)", filter: "blur(80px)", animationDelay: "-6s" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute bottom-0 left-1/3 w-72 h-72 rounded-full opacity-25 drift-blob"
+          style={{ background: "var(--clay)", filter: "blur(80px)", animationDelay: "-12s" }}
+        />
+
+        <div className="relative max-w-6xl mx-auto px-5 sm:px-8 pt-12 pb-20 sm:pt-20 sm:pb-32 grid lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-7 fade-up flex flex-col gap-7">
             <span className="chip self-start">
               🌿 Indonesian commodity export — reimagined
@@ -57,10 +76,18 @@ export default function HomePage() {
               </div>
               <div className="flex items-center gap-4 mb-4">
                 <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center text-2xl flex-shrink-0"
+                  className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 relative ring-2 ring-[var(--moss-soft)]"
                   style={{ background: "var(--moss-soft)" }}
                 >
-                  ☕
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={portraitUrl("karim-aceh", 160)}
+                    alt="Pak Karim Yusuf"
+                    className="w-full h-full object-cover"
+                  />
+                  <span className="absolute -bottom-0.5 -right-0.5 text-lg">
+                    ☕
+                  </span>
                 </div>
                 <div className="min-w-0">
                   <p className="text-lg font-extrabold leading-tight">
@@ -185,38 +212,46 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-5">
-            <TechCard
-              tint="moss"
-              icon={<MapPin size={20} />}
-              num="01"
-              title="Satellite-verified origin"
-              body="Each farmer's plot is geofenced and pulled fresh from Sentinel-2 every 5 days. Buyers see the actual farm from space — and proof of no deforestation. Built-in EUDR compliance from day one."
-              chip="ESA Copernicus · free"
-            />
-            <TechCard
-              tint="ochre"
-              icon={<Mic size={20} />}
-              num="02"
-              title="AI farmer voice"
-              body="Farmer records 30-sec voice memo in Bahasa or local dialect. AI translates and speaks it in the buyer's language — keeping the farmer's own voice timbre. Authenticity, scaled."
-              chip="Claude · Sonnet"
-            />
-            <TechCard
-              tint="clay"
-              icon={<Sprout size={20} />}
-              num="03"
-              title="Carbon ledger per kilo"
-              body="Satellite biodiversity index + practice survey → live CO₂ balance per batch. Many of our farms are net-negative. Buyers can retire offsets at checkout, on top of the commodity."
-              chip="net-negative tracked"
-            />
-            <TechCard
-              tint="indigo"
-              icon={<ScanLine size={20} />}
-              num="04"
-              title="Open DPID spec"
-              body="The DPID standard is public. Any cooperative, any exporter, any commodity can mint and read DPIDs. We become infrastructure, not gatekeeper. Stripe-for-fair-trade."
-              chip="open API"
-            />
+            <Reveal delay={0}>
+              <TechCard
+                tint="moss"
+                icon={<MapPin size={20} />}
+                num="01"
+                title="Satellite-verified origin"
+                body="Each farmer's plot is geofenced and pulled fresh from Sentinel-2 every 5 days. Buyers see the actual farm from space — and proof of no deforestation. Built-in EUDR compliance from day one."
+                chip="ESA Copernicus · free"
+              />
+            </Reveal>
+            <Reveal delay={120}>
+              <TechCard
+                tint="ochre"
+                icon={<Mic size={20} />}
+                num="02"
+                title="AI farmer voice"
+                body="Farmer records 30-sec voice memo in Bahasa or local dialect. AI translates and speaks it in the buyer's language — keeping the farmer's own voice timbre. Authenticity, scaled."
+                chip="Claude · Sonnet"
+              />
+            </Reveal>
+            <Reveal delay={240}>
+              <TechCard
+                tint="clay"
+                icon={<Sprout size={20} />}
+                num="03"
+                title="Carbon ledger per kilo"
+                body="Satellite biodiversity index + practice survey → live CO₂ balance per batch. Many of our farms are net-negative. Buyers can retire offsets at checkout, on top of the commodity."
+                chip="net-negative tracked"
+              />
+            </Reveal>
+            <Reveal delay={360}>
+              <TechCard
+                tint="indigo"
+                icon={<ScanLine size={20} />}
+                num="04"
+                title="Open DPID spec"
+                body="The DPID standard is public. Any cooperative, any exporter, any commodity can mint and read DPIDs. We become infrastructure, not gatekeeper. Stripe-for-fair-trade."
+                chip="open API"
+              />
+            </Reveal>
           </div>
         </div>
       </section>
@@ -248,10 +283,19 @@ export default function HomePage() {
               >
                 <div className="flex items-center gap-3">
                   <div
-                    className="w-14 h-14 rounded-full flex items-center justify-center text-2xl flex-shrink-0"
+                    className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 relative"
                     style={{ background: `var(--${f.tint}-soft)` }}
                   >
-                    {f.emoji}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={portraitUrl(f.slug, 120)}
+                      alt={f.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <span className="absolute -bottom-0.5 -right-0.5 text-base">
+                      {f.emoji}
+                    </span>
                   </div>
                   <div className="min-w-0">
                     <p className="font-bold leading-tight truncate">
@@ -354,9 +398,10 @@ function Stat({
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <p className="text-5xl sm:text-6xl font-extrabold leading-none tracking-tight tabular-nums text-[var(--ochre)]">
-        {value}
-      </p>
+      <CountUp
+        value={value}
+        className="text-5xl sm:text-6xl font-extrabold leading-none tracking-tight tabular-nums text-[var(--ochre)]"
+      />
       <p className="text-base font-bold mt-2">{label}</p>
       <p className="text-sm opacity-60 leading-snug">{sub}</p>
     </div>

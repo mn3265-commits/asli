@@ -277,6 +277,14 @@ export function getFarmer(slug: string): Farmer | null {
   return FARMERS.find((f) => f.slug === slug) ?? null;
 }
 
+// DiceBear-generated portrait — deterministic per farmer slug.
+// Free, stable, hand-illustrated style. Falls back to commodity art if blocked.
+export function portraitUrl(slug: string, size = 200): string {
+  return `https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(
+    slug,
+  )}&size=${size}&backgroundColor=fff8e8`;
+}
+
 export function formatIDR(n: number): string {
   if (n >= 1_000_000) {
     return `Rp ${(n / 1_000_000).toFixed(1)}M`;

@@ -3,11 +3,27 @@ import { join } from "node:path";
 import { marked } from "marked";
 import { Printer, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import {
+  TechStackDiagram,
+  ComparisonDiagram,
+  LifecycleDiagram,
+  PriceShareDiagram,
+  TargetsDashboard,
+} from "@/components/memo-graphics";
 
 export const metadata = {
   title: "Strategic memo — Asli",
   description:
     "Asli: selling Indonesia's commodities by name. A strategic memo, in the style of Harvard Business Review.",
+};
+
+// Section graphics — keyed to slugified H2 headings as they appear in the markdown.
+const SECTION_GRAPHICS: Record<string, React.ReactNode> = {
+  "ii-the-thesis-invert-the-unit-of-trust": <LifecycleDiagram />,
+  "iii-the-technology-stack": <TechStackDiagram />,
+  "iv-the-business-model": <PriceShareDiagram />,
+  "v-why-this-isnt-another-traceability-startup": <ComparisonDiagram />,
+  "vii-what-success-looks-like-in-18-months": <TargetsDashboard />,
 };
 
 export default async function StrategyPage() {
@@ -18,7 +34,8 @@ export default async function StrategyPage() {
   } catch {
     markdown = "# Document not found";
   }
-  const html = await marked.parse(markdown, { gfm: true });
+
+  const sections = splitSections(markdown);
 
   return (
     <>
@@ -34,26 +51,30 @@ export default async function StrategyPage() {
           </Link>
           <div className="flex items-center gap-2">
             <span className="text-[10px] uppercase tracking-widest font-bold opacity-70 hidden sm:inline">
-              Strategic memo
+              Strategic memo · w/ figures
             </span>
-            <button
-              onClick={undefined}
-              className="hidden"
-              aria-hidden
-            />
             <PrintButton />
           </div>
         </div>
       </div>
 
-      <article
-        className="prose-asli max-w-3xl mx-auto px-5 sm:px-8 pt-10 pb-24"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <article className="prose-asli max-w-3xl mx-auto px-5 sm:px-8 pt-10 pb-24">
+        {sections.map((sec, i) => (
+          <div key={i}>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: marked.parse(sec.body, { gfm: true }) as string,
+              }}
+            />
+            {sec.slug && SECTION_GRAPHICS[sec.slug] && (
+              <div className="my-2">{SECTION_GRAPHICS[sec.slug]}</div>
+            )}
+          </div>
+        ))}
+      </article>
 
       <style>
         {`
-          /* HBR-style typography for the strategy doc */
           .prose-asli {
             font-family: var(--font-jakarta), ui-sans-serif, system-ui;
             color: var(--fg);
@@ -66,7 +87,6 @@ export default async function StrategyPage() {
             font-weight: 800;
             margin-top: 1rem;
             margin-bottom: 1.5rem;
-            color: var(--fg);
           }
           .prose-asli h2 {
             font-size: 1.5rem;
@@ -83,21 +103,14 @@ export default async function StrategyPage() {
             font-weight: 700;
             margin-top: 2rem;
             margin-bottom: 0.5rem;
-            color: var(--fg);
           }
           .prose-asli p {
             margin: 1rem 0;
             font-size: 1.05rem;
             color: var(--fg-soft);
           }
-          .prose-asli p em {
-            color: var(--muted);
-            font-style: italic;
-          }
-          .prose-asli strong {
-            color: var(--fg);
-            font-weight: 700;
-          }
+          .prose-asli p em { color: var(--muted); font-style: italic; }
+          .prose-asli strong { color: var(--fg); font-weight: 700; }
           .prose-asli blockquote {
             border-left: 4px solid var(--ochre);
             background: var(--ochre-soft);
@@ -106,16 +119,9 @@ export default async function StrategyPage() {
             border-radius: 0 1rem 1rem 0;
             font-style: normal;
           }
-          .prose-asli blockquote p {
-            margin: 0.5rem 0;
-            color: var(--fg);
-          }
-          .prose-asli blockquote p:first-child {
-            margin-top: 0;
-          }
-          .prose-asli blockquote p:last-child {
-            margin-bottom: 0;
-          }
+          .prose-asli blockquote p { margin: 0.5rem 0; color: var(--fg); }
+          .prose-asli blockquote p:first-child { margin-top: 0; }
+          .prose-asli blockquote p:last-child { margin-bottom: 0; }
           .prose-asli blockquote strong {
             color: var(--clay);
             text-transform: uppercase;
@@ -139,10 +145,7 @@ export default async function StrategyPage() {
             margin: 1rem 0;
             padding-left: 1.5rem;
           }
-          .prose-asli li {
-            margin: 0.4rem 0;
-            color: var(--fg-soft);
-          }
+          .prose-asli li { margin: 0.4rem 0; color: var(--fg-soft); }
           .prose-asli table {
             width: 100%;
             margin: 1.5rem 0;
@@ -163,9 +166,7 @@ export default async function StrategyPage() {
             border-bottom: 1px solid var(--line);
             color: var(--fg-soft);
           }
-          .prose-asli tr:last-child td {
-            border-bottom: none;
-          }
+          .prose-asli tr:last-child td { border-bottom: none; }
           .prose-asli code {
             background: var(--bg-deep);
             padding: 0.15rem 0.4rem;
@@ -179,7 +180,6 @@ export default async function StrategyPage() {
             text-decoration: underline;
             text-underline-offset: 3px;
           }
-          /* First paragraph after h1: lead style */
           .prose-asli h1 + h3 {
             color: var(--muted);
             font-weight: 600;
@@ -189,47 +189,21 @@ export default async function StrategyPage() {
             line-height: 1.4;
           }
 
-          /* Print styles for clean PDF */
           @media print {
-            @page {
-              size: A4;
-              margin: 25mm 22mm;
-            }
-            body {
-              background: white !important;
-              color: black !important;
-            }
+            @page { size: A4; margin: 25mm 22mm; }
+            body { background: white !important; color: black !important; }
             .prose-asli {
               max-width: 100% !important;
               padding: 0 !important;
               font-size: 11pt;
               line-height: 1.55;
             }
-            .prose-asli h1 {
-              font-size: 24pt;
-              page-break-after: avoid;
-            }
-            .prose-asli h2 {
-              font-size: 14pt;
-              page-break-after: avoid;
-              page-break-before: auto;
-              color: #2f5d3a;
-            }
-            .prose-asli h3 {
-              font-size: 12pt;
-              page-break-after: avoid;
-            }
-            .prose-asli blockquote {
-              background: #faf5e8 !important;
-              page-break-inside: avoid;
-            }
-            .prose-asli table {
-              page-break-inside: avoid;
-            }
-            .prose-asli p, .prose-asli li {
-              orphans: 3;
-              widows: 3;
-            }
+            .prose-asli h1 { font-size: 24pt; page-break-after: avoid; }
+            .prose-asli h2 { font-size: 14pt; page-break-after: avoid; color: #2f5d3a; }
+            .prose-asli h3 { font-size: 12pt; page-break-after: avoid; }
+            .prose-asli blockquote { background: #faf5e8 !important; page-break-inside: avoid; }
+            .prose-asli table, .not-prose { page-break-inside: avoid; }
+            .prose-asli p, .prose-asli li { orphans: 3; widows: 3; }
           }
         `}
       </style>
@@ -249,4 +223,38 @@ function PrintButton() {
       </button>
     </form>
   );
+}
+
+function splitSections(md: string): { slug: string; body: string }[] {
+  const lines = md.split("\n");
+  const out: { slug: string; body: string }[] = [];
+  let currentSlug = "";
+  let buf: string[] = [];
+
+  const flush = () => {
+    if (buf.length > 0) {
+      out.push({ slug: currentSlug, body: buf.join("\n") });
+      buf = [];
+    }
+  };
+
+  for (const line of lines) {
+    const m = line.match(/^##\s+(.+)$/);
+    if (m) {
+      flush();
+      currentSlug = slugify(m[1]);
+    }
+    buf.push(line);
+  }
+  flush();
+  return out;
+}
+
+function slugify(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[—–]/g, "-")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
 }

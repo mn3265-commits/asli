@@ -12,7 +12,7 @@ import {
   Sparkles,
   Satellite,
 } from "lucide-react";
-import { FARMERS, getFarmer, formatIDR, formatUSD } from "@/lib/data";
+import { FARMERS, getFarmer, formatIDR, formatUSD, portraitUrl } from "@/lib/data";
 import { SatelliteMap } from "@/components/satellite-map";
 import { VoiceCard } from "@/components/voice-card";
 import { TipForm } from "@/components/tip-form";
@@ -85,10 +85,18 @@ export default async function FarmerDPIDPage({ params }: PageProps) {
 
               <div className="flex items-start gap-4">
                 <div
-                  className="w-20 h-20 rounded-full flex items-center justify-center text-4xl flex-shrink-0"
-                  style={{ background: `var(--${f.tint}-soft)` }}
+                  className="w-24 h-24 rounded-full overflow-hidden ring-4 flex-shrink-0 relative"
+                  style={{ background: `var(--${f.tint}-soft)`, '--tw-ring-color': `var(--${f.tint}-soft)` } as React.CSSProperties}
                 >
-                  {f.emoji}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={portraitUrl(f.slug, 200)}
+                    alt={f.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <span className="absolute -bottom-1 -right-1 text-2xl drop-shadow-md">
+                    {f.emoji}
+                  </span>
                 </div>
                 <div className="min-w-0 flex-1">
                   <p

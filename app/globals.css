@@ -125,3 +125,48 @@ p { line-height: 1.6; }
 .fade-up {
   animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
+/* Drifting hero blobs */
+@keyframes drift-blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -30px) scale(1.08); }
+  66% { transform: translate(-30px, 40px) scale(0.95); }
+}
+.drift-blob {
+  animation: drift-blob 18s ease-in-out infinite;
+}
+
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.float-gentle {
+  animation: float-gentle 4s ease-in-out infinite;
+}
+
+/* Reveal-on-scroll */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-on-scroll.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Blinking cursor */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.blink {
+  animation: blink 1s steps(2) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drift-blob, .float-gentle, .blink { animation: none; }
+  .reveal-on-scroll { opacity: 1; transform: none; }
+}

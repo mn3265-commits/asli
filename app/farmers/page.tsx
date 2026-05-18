@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FARMERS, formatIDR } from "@/lib/data";
+import { FARMERS, formatIDR, portraitUrl } from "@/lib/data";
 import { Search } from "lucide-react";
 import { CommodityArt } from "@/components/commodity-art";
 import { OnboardedFarmersBanner } from "@/components/onboarded-farmers-banner";
@@ -68,13 +68,24 @@ export default function FarmersPage() {
               className="group bg-[var(--ivory)] rounded-3xl border border-[var(--line)] p-5 tap flex flex-col gap-4 fade-up"
               style={{ animationDelay: `${60 + i * 50}ms` }}
             >
-              {/* Commodity art header */}
+              {/* Commodity art header with portrait */}
               <div className="rounded-2xl overflow-hidden relative">
                 <CommodityArt commodity={f.commodity} seed={f.slug} />
-                <span className="absolute top-3 right-3 text-3xl drop-shadow-lg">
+                <span className="absolute top-3 right-3 text-2xl drop-shadow-lg">
                   {f.emoji}
                 </span>
+                {/* Portrait */}
+                <div className="absolute -bottom-5 left-4 w-16 h-16 rounded-full bg-[var(--ivory)] p-0.5 ring-2 ring-[var(--ivory)] shadow-md overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={portraitUrl(f.slug, 120)}
+                    alt={f.name}
+                    className="w-full h-full rounded-full object-cover bg-[var(--bg-deep)]"
+                    loading="lazy"
+                  />
+                </div>
               </div>
+              <div className="h-3" />
 
               <div className="flex flex-col gap-1">
                 <div className="flex items-center justify-between gap-2">
